@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="东京多摩两日红叶自驾：御岳山、御岳溪谷、奥多摩湖、秋川溪谷。互动地图、每站实拍、花费计算。">
+<meta property="og:title" content="多摩两日红叶自驾">
+<meta property="og:description" content="御岳山 · 御岳溪谷 · 奥多摩湖 · 秋川溪谷，一圈不走回头路">
+<meta property="og:image" content="https://hatk3451.github.io/tama-trip/img/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B3302A'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='white' font-family='serif'%3E%E7%A7%8B%3C/text%3E%3C/svg%3E">
+<title>多摩两日红叶自驾</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap">
+<style>
+/* Layout: 地形图式行程本。手机上地图吸顶、行程在下面随滚动联动；宽屏左行程、右地图。红 = 第 1 天（枫叶），金 = 第 2 天（银杏）。 */
+:root{
+  --paper:#ECF0E9; --sheet:#F8FAF6; --ink:#17201C; --ink-2:#55635C; --rule:#D2DACF;
+  --chip:#E9EEE6; --track:#E0E7DD; --hatch:#7E8C85; --shadow:rgba(20,32,26,.28);
+  --map-bg:#E5EBE1; --contour:#9C8462; --river:#3A7DAE; --lake:#C4DAE6; --road:#A3ACA5; --hwy:#727E77;
+  --d1:#B3302A; --d1-line:#B3302A; --d1-ink:#A02A25; --d1-soft:#F2DCD7;
+  --d2:#946508; --d2-line:#C99212; --d2-ink:#835800; --d2-soft:#F2E6C8;
+  --focus:#2F6FA3; --me:#2463C9;
+  --font-display:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+  --font-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --font-data:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1412; --sheet:#151D1A; --ink:#E2E9E4; --ink-2:#99A9A0; --rule:#28342F;
+  --chip:#1F2925; --track:#222D29; --hatch:#6B7A73; --shadow:rgba(0,0,0,.6);
+  --map-bg:#111916; --contour:#7F7059; --river:#5BA4D6; --lake:#16303F; --road:#46524C; --hwy:#6C7A73;
+  --d1:#EE6A5B; --d1-line:#EE6A5B; --d1-ink:#F28678; --d1-soft:#3A1F1C;
+  --d2:#E2AA3A; --d2-line:#E2AA3A; --d2-ink:#EDBB55; --d2-soft:#33291A;
+  --focus:#7DB6E3; --me:#6AA8FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1412; --sheet:#151D1A; --ink:#E2E9E4; --ink-2:#99A9A0; --rule:#28342F;
+  --chip:#1F2925; --track:#222D29; --hatch:#6B7A73; --shadow:rgba(0,0,0,.6);
+  --map-bg:#111916; --contour:#7F7059; --river:#5BA4D6; --lake:#16303F; --road:#46524C; --hwy:#6C7A73;
+  --d1:#EE6A5B; --d1-line:#EE6A5B; --d1-ink:#F28678; --d1-soft:#3A1F1C;
+  --d2:#E2AA3A; --d2-line:#E2AA3A; --d2-ink:#EDBB55; --d2-soft:#33291A;
+  --focus:#7DB6E3; --me:#6AA8FF; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.7 var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:1180px;margin-inline:auto}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+h1,h2,h3{text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:900;font-size:clamp(22px,4.8vw,30px);line-height:1.3;margin:0}
+.kicker{font:600 12px/1.3 var(--font-data);letter-spacing:.08em;color:var(--ink-2)}
+.note{color:var(--ink-2);font-size:13.5px;margin:0}
+.section{padding-block:48px 0}
+.section-head{display:grid;gap:6px;margin-bottom:18px;max-width:40em}
+
+/* ---------- 开头 ---------- */
+.hero{display:grid;gap:22px;padding-block:28px 8px}
+.hero-top{display:grid;gap:12px;max-width:44em}
+h1{font-family:var(--font-display);font-weight:900;font-size:clamp(34px,8.6vw,58px);line-height:1.12;margin:0;letter-spacing:.01em}
+.seal{display:inline-flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-size:.34em;line-height:1;
+  padding:.34em .24em;background:var(--d1);color:var(--sheet);border-radius:.16em;transform:rotate(-6deg) translateY(-.2em);
+  margin-left:.3em;vertical-align:middle;letter-spacing:.06em;font-weight:900}
+.lede{font-size:16.5px;margin:0;max-width:34em}
+.facts{display:flex;flex-wrap:wrap;gap:12px 30px;margin:0;padding:0;list-style:none}
+.facts li{display:grid;gap:1px}
+.facts .k{font-size:12px;color:var(--ink-2)}
+.facts .v{font:600 17px/1.35 var(--font-data);font-variant-numeric:tabular-nums}
+.facts a.v{text-decoration:none;border-bottom:1px dashed currentColor;justify-self:start}
+
+.foliage{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;padding:16px 16px 14px;display:grid;gap:14px;max-width:780px}
+.f-head{display:flex;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;align-items:baseline}
+.f-title{font-weight:700;font-size:15.5px}
+.gantt{display:grid;gap:12px}
+.g-axis{position:relative;height:16px;font:500 11px/1 var(--font-data);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.g-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.g-axis span.first{transform:none}
+.g-axis span.last{transform:translateX(-100%)}
+.g-axis span.today{color:var(--ink);font-weight:600;top:auto;bottom:-1px;background:var(--sheet);padding-inline:3px}
+.g-row{display:grid;gap:5px}
+.g-label{font-size:13.5px;display:flex;gap:8px;align-items:baseline;min-width:0;flex-wrap:wrap}
+.g-label small{color:var(--ink-2);font:500 11px/1 var(--font-data)}
+.g-track{position:relative;height:12px;border-radius:6px;background:var(--track)}
+.g-bar{position:absolute;top:0;bottom:0;border-radius:6px;background:var(--c)}
+.g-bar.soft{opacity:.32}
+.g-bar.cut{border-top-left-radius:0;border-bottom-left-radius:0}
+.g-hol{position:absolute;top:-4px;bottom:-4px;background:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 5px);opacity:.55;border-radius:2px}
+.g-today{position:absolute;top:-6px;bottom:-6px;width:2px;margin-left:-1px;background:var(--ink);border-radius:1px}
+@media (min-width:640px){
+  .g-row{grid-template-columns:15em minmax(0,1fr);align-items:center;gap:14px}
+  .g-axis{margin-left:calc(15em + 14px)}
+}
+.g-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2);align-items:center}
+.g-legend i{display:inline-block;width:18px;height:8px;border-radius:4px;vertical-align:middle;margin-right:5px;background:var(--d1-line)}
+.g-legend i.soft{opacity:.32}
+.g-legend i.hol{background:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 5px);opacity:.8;border-radius:1px}
+.g-legend i.now{width:2px;height:14px;background:var(--ink);border-radius:1px}
+
+/* ---------- 行程 + 地图 ---------- */
+.trip{display:block;padding-block:30px 0}
+.map-col{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;padding-block:8px 10px;background:var(--paper)}
+.map-card{position:relative;height:44vh;height:min(44svh,440px);min-height:270px;border-radius:14px;overflow:hidden;
+  background:var(--map-bg);border:1px solid var(--rule);touch-action:none}
+#map{display:block;width:100%;height:100%;cursor:grab;user-select:none;-webkit-user-select:none}
+#map.grabbing{cursor:grabbing}
+@media (min-width:920px){
+  .trip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:32px;align-items:start}
+  .map-col{order:2;top:16px;padding:0;background:none}
+  .map-card{height:calc(100vh - 32px);height:calc(100svh - 32px)}
+  .list-col{order:1}
+}
+.m-tabs{position:absolute;top:10px;left:10px;display:flex;gap:2px;padding:3px;background:var(--sheet);border:1px solid var(--rule);
+  border-radius:999px;box-shadow:0 2px 8px -4px var(--shadow)}
+.m-tabs button{border:0;background:transparent;font-size:13px;font-weight:500;color:var(--ink-2);padding:6px 11px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.m-tabs button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+.m-tabs button[data-day="1"][aria-pressed="true"]{background:var(--d1)}
+.m-tabs button[data-day="2"][aria-pressed="true"]{background:var(--d2)}
+.m-zoom{position:absolute;top:10px;right:10px;display:grid;gap:6px}
+.m-zoom button{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--rule);background:var(--sheet);border-radius:10px;
+  cursor:pointer;font:500 19px/1 var(--font-data);box-shadow:0 2px 8px -4px var(--shadow)}
+.m-zoom svg{width:17px;height:17px}
+.m-foot{position:absolute;left:10px;right:10px;bottom:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px;pointer-events:none}
+.m-legend{pointer-events:auto;font-size:11.5px;line-height:1.2;background:var(--sheet);border:1px solid var(--rule);padding:5px 8px;border-radius:8px;
+  display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;color:var(--ink-2)}
+.m-legend i{display:inline-block;vertical-align:middle;margin-right:4px}
+.m-legend .sw{width:14px;height:4px;border-radius:2px}
+.m-legend .sw.d1{background:var(--d1-line)} .m-legend .sw.d2{background:var(--d2-line)}
+.m-legend .ring{width:10px;height:10px;border-radius:50%;border:1.5px dashed var(--ink-2)}
+.m-legend{min-width:0}
+@media (max-width:520px){.m-legend .m-note{display:none}}
+.m-follow{flex:none;pointer-events:auto;border:0;background:var(--ink);color:var(--sheet);font-size:12.5px;font-weight:500;padding:7px 11px;border-radius:999px;cursor:pointer;
+  box-shadow:0 2px 8px -4px var(--shadow);white-space:nowrap}
+.m-zoom .loc{color:var(--ink)}
+.m-zoom .loc[aria-pressed="true"]{color:var(--me);border-color:var(--me)}
+.m-zoom .loc.busy svg{animation:spin 1.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.m-toast{position:absolute;top:52px;left:10px;right:56px;max-width:330px;background:var(--sheet);border:1px solid var(--rule);border-left:3px solid var(--me);
+  border-radius:10px;padding:8px 30px 9px 11px;font-size:12.5px;line-height:1.55;color:var(--ink);box-shadow:0 8px 20px -12px var(--shadow)}
+.m-toast b{font-weight:600}
+.m-toast .km{font:600 12.5px/1 var(--font-data);white-space:nowrap}
+.m-toast .sub{color:var(--ink-2);font-size:11.5px}
+.m-toast a{display:inline-block;margin-top:3px;color:var(--me);font-weight:500;text-decoration:none}
+.m-toast .x{position:absolute;top:3px;right:3px;width:26px;height:26px;border:0;background:none;color:var(--ink-2);font-size:17px;line-height:1;cursor:pointer;border-radius:6px}
+.me{pointer-events:none}
+.me .ring{fill:var(--me);opacity:.3;transform-box:fill-box;transform-origin:center;animation:halo 2.2s ease-out infinite}
+.me .core{fill:var(--me);stroke:#fff;stroke-width:2.6}
+.me-acc{fill:var(--me);fill-opacity:.1;stroke:var(--me);stroke-opacity:.4;stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:none}
+@media (prefers-reduced-motion: reduce){.me .ring,.m-zoom .loc.busy svg{animation:none}}
+
+/* 地图里的 SVG */
+.ctr{fill:none;stroke:var(--contour);stroke-width:.7;opacity:.5;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.ctr.idx{stroke-width:1.25;opacity:.62}
+.lake{fill:var(--lake);stroke:var(--river);stroke-width:1;vector-effect:non-scaling-stroke}
+.riv{fill:none;stroke:var(--river);stroke-width:1.7;opacity:.85;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.rd{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.rd.case{stroke:var(--road);stroke-width:4.6}
+.rd.fill{stroke:var(--map-bg);stroke-width:2.2}
+.rd.hcase{stroke:var(--hwy);stroke-width:6}
+.rd.hfill{stroke:var(--map-bg);stroke-width:2.6}
+.route{fill:none;stroke:var(--rc);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.route-case{fill:none;stroke:var(--map-bg);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.route.opt{stroke-dasharray:1 7}
+.route.cable{stroke-width:2.4;stroke-dasharray:7 5}
+.route.walk{stroke-width:3;stroke-dasharray:.5 6}
+.rgrp.d1{--rc:var(--d1-line)} .rgrp.d2{--rc:var(--d2-line)}
+.rgrp,.pgrp{transition:opacity .35s}
+.dim{opacity:.28}
+.pin{cursor:pointer}
+.pin.d1{--pc:var(--d1)} .pin.d2{--pc:var(--d2)}
+.pin .dot{fill:var(--pc);stroke:var(--map-bg);stroke-width:2.2}
+.pin.opt .dot{fill:var(--map-bg);stroke:var(--pc);stroke-width:2.2;stroke-dasharray:3.2 2.2}
+.pin .n{fill:var(--sheet);font:600 11.5px var(--font-data);text-anchor:middle}
+.pin.opt .n{fill:var(--pc)}
+.pin .halo{fill:var(--pc);opacity:0;transform-box:fill-box;transform-origin:center}
+.pin.active .halo{opacity:.25;animation:halo 1.9s ease-out infinite}
+.pin.active .dot{stroke-width:3}
+@keyframes halo{0%{transform:scale(.7);opacity:.4}100%{transform:scale(1.9);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pin.active .halo{animation:none}}
+.lbl{font:600 12.5px var(--font-body);fill:var(--ink);paint-order:stroke;stroke:var(--map-bg);stroke-width:3.4px;stroke-linejoin:round}
+.pin.active .lbl{font-size:13.5px}
+.peak path{fill:var(--contour);opacity:.9}
+.peak .lbl{font:500 11px var(--font-body);fill:var(--ink-2)}
+.region .lbl{font:700 15px var(--font-display);fill:var(--ink-2);letter-spacing:.2em;opacity:.85;text-anchor:middle}
+.region.water .lbl{font:500 12px var(--font-body);fill:var(--river);letter-spacing:.3em;font-style:italic}
+.region.hint .lbl{font:500 11.5px var(--font-body);fill:var(--ink-2);letter-spacing:0;text-anchor:end}
+
+/* 行程列表 */
+.day{padding-block:6px 30px}
+.day[data-day="1"]{--dc:var(--d1);--dc-line:var(--d1-line);--dc-ink:var(--d1-ink);--dc-soft:var(--d1-soft)}
+.day[data-day="2"]{--dc:var(--d2);--dc-line:var(--d2-line);--dc-ink:var(--d2-ink);--dc-soft:var(--d2-soft)}
+.day-head{display:grid;gap:6px;padding-block:14px 12px;scroll-margin-top:var(--sm,24px)}
+.day-tag{justify-self:start;font:600 12px/1 var(--font-data);letter-spacing:.06em;padding:6px 10px;border-radius:999px;background:var(--dc-soft);color:var(--dc-ink)}
+.day-meta{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;color:var(--ink-2);font-size:13.5px}
+.route-btn{font-size:13px;font-weight:500;text-decoration:none;color:var(--dc-ink);border-bottom:1px solid currentColor}
+ol.stops{list-style:none;margin:0;padding:0;display:grid}
+.row{display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:10px;position:relative}
+.row::before{content:"";position:absolute;left:14px;top:0;bottom:0;border-left:2px dashed var(--dc-line);opacity:.45}
+.stops>.row:first-child::before{top:18px}
+.stops>.row:last-child::before{bottom:auto;height:18px}
+.mk{position:relative;z-index:1;display:grid;justify-items:center;align-content:start;padding-top:14px}
+.num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--dc);color:var(--sheet);
+  font:600 13px/1 var(--font-data);box-shadow:0 0 0 4px var(--paper)}
+.opt .num{background:var(--paper);color:var(--dc-ink);border:2px dashed var(--dc)}
+.leg .mk{padding-top:9px}
+.leg-ic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--ink-2);box-shadow:0 0 0 3px var(--paper)}
+.leg-ic svg{width:16px;height:16px}
+.leg-text{font-size:13.5px;color:var(--ink-2);padding-block:10px 12px;margin:0}
+.leg-text b{font-family:var(--font-data);color:var(--ink);font-weight:600}
+.card{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:12px 14px 13px;margin-block:4px;display:grid;gap:8px;
+  scroll-margin-top:var(--sm,24px);cursor:pointer;transition:border-color .25s,box-shadow .25s}
+.row.active .card{border-color:var(--dc);box-shadow:0 0 0 1px var(--dc),0 10px 24px -16px var(--shadow)}
+.c-top{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.c-time{font:600 13.5px/1 var(--font-data);color:var(--dc-ink);font-variant-numeric:tabular-nums}
+.c-stay{font-size:12.5px;color:var(--ink-2)}
+.c-photo{position:relative;margin:-12px -14px 2px;aspect-ratio:2/1;overflow:hidden;border-radius:11px 11px 0 0;background:var(--chip)}
+.c-photo img,.hero-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.cred{position:absolute;right:6px;bottom:6px;max-width:calc(100% - 12px);font-size:10.5px;line-height:1.35;color:#fff;background:rgba(10,14,12,.5);
+  padding:2px 8px;border-radius:999px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.hero-photo{position:relative;margin:0;aspect-ratio:21/9;max-height:min(46vh,440px);border-radius:16px;overflow:hidden;background:var(--chip)}
+@media (max-width:640px){
+  .hero{padding-top:0}
+  .hero-photo{aspect-ratio:4/3;max-height:52svh;border-radius:0 0 18px 18px;
+    margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)))}
+}
+.c-dist{margin-left:auto;font:500 12px/1 var(--font-data);color:var(--me);white-space:nowrap}
+.badge-opt{font-size:11.5px;line-height:1.4;padding:1px 7px;border:1px dashed var(--dc);color:var(--dc-ink);border-radius:999px}
+.card h3{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.35;margin:0}
+.ja{margin:-5px 0 0;font-size:12.5px;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;line-height:1.4;padding:3px 8px;border-radius:6px;background:var(--chip)}
+.chip b{font-weight:500;color:var(--ink-2);margin-right:5px}
+.body{margin:0;font-size:14.5px}
+.tips{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+.tips li{padding-left:14px;position:relative}
+.tips li::before{content:"";position:absolute;left:2px;top:.72em;width:6px;height:6px;border-radius:50%;background:var(--dc);opacity:.65}
+.nav{justify-self:start;font-size:13px;font-weight:500;color:var(--dc-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+  padding:5px 11px;border:1px solid var(--rule);border-radius:999px;background:var(--paper)}
+.nav:hover{border-color:var(--dc)}
+.list-note{padding-left:40px}
+
+/* 花费 */
+.budget{display:grid;gap:16px}
+@media (min-width:820px){.budget{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}}
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;padding:16px;display:grid;gap:16px;min-width:0}
+.field{display:grid;gap:8px}
+.lab{font-size:13px;color:var(--ink-2);font-weight:500}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--rule);background:var(--paper);padding:6px 12px;border-radius:999px;cursor:pointer;font-size:13.5px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.stepper{display:flex;align-items:center;border:1px solid var(--rule);border-radius:10px;width:max-content;overflow:hidden;background:var(--paper)}
+.stepper button{width:42px;height:38px;border:0;background:transparent;cursor:pointer;font:500 18px/1 var(--font-data)}
+.stepper output{min-width:46px;text-align:center;font:600 16px/1 var(--font-data)}
+.checks{display:grid;gap:8px}
+.ck{display:flex;gap:10px;align-items:center;font-size:14px;cursor:pointer}
+.ck input{width:18px;height:18px;accent-color:var(--d1);margin:0}
+.ck small{color:var(--ink-2);font-family:var(--font-data);font-size:12px}
+.total{display:grid;gap:2px}
+.total .big{font:600 clamp(34px,8.4vw,46px)/1.1 var(--font-data);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.total .big small{font:500 15px var(--font-body);color:var(--ink-2);margin-left:6px;letter-spacing:0}
+.total .sub{font-size:13.5px;color:var(--ink-2)}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;background:var(--track)}
+.stack span{display:block;height:100%;transition:flex-grow .3s}
+.k-car{background:var(--hwy)} .k-tix{background:var(--d2-line)} .k-stay{background:var(--d1-line)} .k-food{background:var(--river)}
+.stack-key{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink-2)}
+.stack-key i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.stack-key b{font-family:var(--font-data);font-weight:600;color:var(--ink);margin-left:4px;font-variant-numeric:tabular-nums}
+.lines{display:grid}
+.line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding-block:8px;border-top:1px solid var(--rule);align-items:baseline}
+.line .nm{font-size:14px;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;min-width:0}
+.line .amt{font:600 14px/1.3 var(--font-data);font-variant-numeric:tabular-nums;text-align:right}
+.line .ds{grid-column:1/-1;font-size:12.5px;color:var(--ink-2)}
+.est{font-size:10.5px;line-height:1.3;padding:0 5px;border-radius:4px;border:1px solid var(--rule);color:var(--ink-2)}
+
+/* 出发前 */
+.two{display:grid;gap:16px}
+@media (min-width:820px){.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}}
+.panel h3{margin:0;font-size:16px;font-weight:700}
+.todo{display:grid;gap:2px;margin:0;padding:0;list-style:none}
+.todo label{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;padding-block:7px;cursor:pointer;border-top:1px solid var(--rule)}
+.todo li:first-child label{border-top:0}
+.todo input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--d1);flex:none}
+.todo input:checked + span{color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--ink-2)}
+.warn{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.warn li{display:grid;gap:2px;font-size:14px}
+.warn b{font-weight:700;font-size:14.5px}
+.warn span{color:var(--ink-2)}
+
+.alts{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.alt{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;padding:16px;display:grid;gap:8px;align-content:start}
+.alt h3{margin:0;font-family:var(--font-display);font-size:18px}
+.alt p{margin:0;font-size:14.5px}
+.alt ul{margin:0;padding-left:1.2em;font-size:14px;color:var(--ink-2);display:grid;gap:3px}
+
+.sources{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
+.sources a{color:var(--ink-2)}
+.credits{margin-top:14px;font-size:13.5px;color:var(--ink-2)}
+.credits summary{cursor:pointer;font-weight:500;color:var(--ink)}
+.credits .sources{margin-top:8px;font-size:12.5px}
+.foot{margin-top:28px;font-size:12.5px;color:var(--ink-2)}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div id="heroPhoto" hidden></div>
+    <div class="hero-top">
+      <div class="kicker">东京都西部 · 奥多摩 / 秋川 / 青梅 · 2026 年 11 月</div>
+      <h1>多摩两日红叶自驾<span class="seal" aria-hidden="true">秋游</span></h1>
+      <p class="lede">第一天上御岳山、走御岳溪谷，晚上住奥多摩；第二天沿奥多摩湖翻过周游道路，下到桧原村和秋川溪谷，泡完温泉回家。一圈不走回头路。</p>
+      <ul class="facts">
+        <li><span class="k">全程</span><span class="v">约 230 km</span></li>
+        <li><span class="k">每人花费</span><a class="v" href="#budget">约 2–4 万日元</a></li>
+        <li><span class="k">日落</span><span class="v">16:30 左右</span></li>
+        <li><span class="k">最好看</span><span class="v">11 月中下旬</span></li>
+      </ul>
+    </div>
+    <div class="foliage" aria-labelledby="f-title">
+      <div class="f-head"><span class="f-title" id="f-title">红叶什么时候最好看</span><span class="note">按海拔从高到低</span></div>
+      <div class="gantt" id="gantt"></div>
+      <div class="g-legend"><span><i></i>最好看</span><span><i class="soft"></i>刚变色或尾声</span><span><i class="hol"></i>11/21–23 三连休，最挤</span><span><i class="now"></i>今天</span></div>
+      <p class="note">按往年规律和今年的预报估算，不是实况。出发前一晚再查一下。</p>
+    </div>
+  </header>
+
+  <section id="trip" class="trip" aria-label="行程和地图">
+    <div class="map-col" id="mapCol">
+      <div class="map-card" id="mapCard">
+        <svg id="map" role="img" aria-label="多摩地区示意地图，标出两天的路线和每一站">
+          <g id="gTerrain"></g><g id="gWater"></g><g id="gRoads"></g><g id="gRoutes"></g><g id="gMarks"></g><g id="gPins"></g>
+        </svg>
+        <div class="m-tabs" role="group" aria-label="地图看哪一天">
+          <button type="button" data-view="0" aria-pressed="true">全程</button>
+          <button type="button" data-view="1" data-day="1" aria-pressed="false">第 1 天</button>
+          <button type="button" data-view="2" data-day="2" aria-pressed="false">第 2 天</button>
+        </div>
+        <div class="m-zoom">
+          <button type="button" id="zIn" aria-label="放大地图">+</button>
+          <button type="button" id="zOut" aria-label="缩小地图">−</button>
+          <button type="button" id="zFit" aria-label="看全图"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+          <button type="button" id="zLoc" class="loc" aria-label="显示我的位置" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2.3" fill="currentColor" stroke="none"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg></button>
+        </div>
+        <div class="m-toast" id="mToast" role="status" hidden><div class="t"></div><button type="button" class="x" aria-label="关掉提示">×</button></div>
+        <div class="m-foot">
+          <div class="m-legend" id="mLegend"><span><i class="sw d1"></i>第 1 天</span><span><i class="sw d2"></i>第 2 天</span><span><i class="ring"></i>可选</span><span class="m-note">示意图，导航用 Google 地图</span></div>
+          <button type="button" class="m-follow" id="follow" hidden>地图跟着行程走</button>
+        </div>
+      </div>
+    </div>
+    <div class="list-col" id="list"></div>
+  </section>
+
+  <section id="budget" class="section" aria-labelledby="b-title">
+    <div class="section-head">
+      <h2 id="b-title">算一下花费</h2>
+      <p class="note">单位都是日元。标「估」的是估算，其余是 2026 年查到的价格。</p>
+    </div>
+    <div class="budget">
+      <div class="panel" id="bControls">
+        <div class="field"><span class="lab" id="lab-n">几个人</span>
+          <div class="stepper" role="group" aria-labelledby="lab-n">
+            <button type="button" id="bMinus" aria-label="少一人">−</button><output id="bN" aria-live="polite">2</output><button type="button" id="bPlus" aria-label="多一人">+</button>
+          </div>
+        </div>
+        <div class="field"><span class="lab">车</span>
+          <div class="seg" data-key="car"><button type="button" data-v="rent">租车</button><button type="button" data-v="own">自己的车</button></div>
+        </div>
+        <div class="field"><span class="lab">哪天去</span>
+          <div class="seg" data-key="dayType"><button type="button" data-v="weekday">平日</button><button type="button" data-v="weekend">周末或节假日</button></div>
+        </div>
+        <div class="field"><span class="lab">住哪</span>
+          <div class="seg" data-key="lodge"><button type="button" data-v="ryokan">旅馆，含两餐</button><button type="button" data-v="minshuku">民宿，含两餐</button><button type="button" data-v="hotel">商务酒店</button></div>
+        </div>
+        <div class="field"><span class="lab">去不去</span>
+          <div class="checks">
+            <label class="ck"><input type="checkbox" id="oCable" data-opt="cable" checked>御岳山缆车 <small>1,400</small></label>
+            <label class="ck"><input type="checkbox" id="oCave" data-opt="cave" checked>日原钟乳洞 <small>900</small></label>
+            <label class="ck"><input type="checkbox" id="oOnsen" data-opt="onsen" checked>濑音之汤 <small>1,100–1,200</small></label>
+            <label class="ck"><input type="checkbox" id="oBrew" data-opt="brew" checked>酒窖参观 <small>0–700</small></label>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="bResult" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="before" class="section" aria-labelledby="w-title">
+    <div class="section-head"><h2 id="w-title">出发前</h2></div>
+    <div class="two">
+      <div class="panel">
+        <h3>要办的事</h3>
+        <ul class="todo" id="todo">
+          <li><label><input type="checkbox" id="t1"><span>订好奥多摩一带的住宿，三连休要尽快</span></label></li>
+          <li><label><input type="checkbox" id="t2"><span>打电话或上网预约澤乃井酒窖参观，顺便问清费用</span></label></li>
+          <li><label><input type="checkbox" id="t3"><span>定好谁开车，这个人全程不喝酒</span></label></li>
+          <li><label><input type="checkbox" id="t4"><span>前一晚查红叶实况和天气</span></label></li>
+          <li><label><input type="checkbox" id="t5"><span>当天早上查周游道路有没有封路</span></label></li>
+          <li><label><input type="checkbox" id="t6"><span>在青梅或五日市把油加满</span></label></li>
+          <li><label><input type="checkbox" id="t7"><span>带厚外套，山上比市区冷好几度</span></label></li>
+          <li><label><input type="checkbox" id="t8"><span>带驾照，外国驾照记得带译本或国际驾照</span></label></li>
+        </ul>
+        <p class="note">勾选只存在你这台设备上。</p>
+      </div>
+      <div class="panel">
+        <h3>要知道的事</h3>
+        <ul class="warn">
+          <li><b>天黑得早</b><span>11 月中下旬 16:30 左右日落，山谷里更早暗。山路没有路灯、弯多，还会碰到鹿和猴子，16 点就开始往住处或山下走。</span></li>
+          <li><b>周游道路晚上关闸</b><span>民间网站说 10 月到 3 月只在 9:00–18:00 开，没找到官方原文。下大雨、结冰也会封。</span></li>
+          <li><b>三连休最挤</b><span>11/21–23 正好赶上红叶最好，能平日去最好。周末去就 8 点前到第一站。</span></li>
+          <li><b>酒驾零容忍</b><span>司机连试饮的一小口也不行，酒厂的试饮只留给乘客。</span></li>
+          <li><b>加油站少</b><span>桧原村和奥多摩一带很少，进山前加满。</span></li>
+          <li><b>驾照</b><span>中国大陆驾照不能在日本开车；台湾驾照要配日文译本，香港驾照要配 1949 年版国际驾照。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="alts" class="section" aria-labelledby="a-title">
+    <div class="section-head"><h2 id="a-title">时间不一样的话</h2></div>
+    <div class="alts">
+      <article class="alt">
+        <div class="kicker">只有一天</div>
+        <h3>二选一，别跑整圈</h3>
+        <p>11 月白天太短，一天跑完整圈会一直在赶路。</p>
+        <ul>
+          <li>山上那条：青梅IC → 御岳山 → 御岳溪谷 → 澤乃井园</li>
+          <li>山谷那条：あきる野IC → 払沢の滝 → 秋川溪谷 → 濑音之汤</li>
+        </ul>
+      </article>
+      <article class="alt">
+        <div class="kicker">多出半天</div>
+        <h3>昭和纪念公园银杏大道</h3>
+        <p>在立川，回程顺路。98 棵银杏排成约 300 米，红叶节办到 11 月 29 日。</p>
+        <ul>
+          <li>门票 450，65 岁以上 210，初中生以下免费</li>
+          <li>停车约 900/天（2025 年资料）</li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=%E5%9B%BD%E5%96%B6%E6%98%AD%E5%92%8C%E8%A8%98%E5%BF%B5%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">在 Google 地图打开 ↗</a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="s-title">
+    <div class="section-head"><h2 id="s-title">资料来源</h2></div>
+    <ul class="sources">
+      <li><a href="https://kaibutsu-blog.com/?p=3774" target="_blank" rel="noopener">御岳山红叶、缆车新票价、滝本站停车场（2026-11-01 更新）</a></li>
+      <li><a href="https://kaibutsu-blog.com/nippara-cave-2026/" target="_blank" rel="noopener">日原钟乳洞 2026</a></li>
+      <li><a href="https://samuraicarjapanjdm.jp/zh-tw/okutama-drive-guide/" target="_blank" rel="noopener">奥多摩自驾指南（周游道路开闸时间、驾照）</a></li>
+      <li><a href="https://tenki.jp/kouyou/3/16/34667.html" target="_blank" rel="noopener">秋川溪谷红叶（tenki.jp）</a> · <a href="https://www.walkerplus.com/article/1056661/" target="_blank" rel="noopener">Walkerplus 红叶</a></li>
+      <li><a href="https://tenki.jp/kouyou/3/16/34665.html" target="_blank" rel="noopener">御岳溪谷红叶（tenki.jp）</a></li>
+      <li><a href="https://trafficnews.jp/post/622415" target="_blank" rel="noopener">青梅铁道公园翻新重开</a></li>
+      <li><a href="https://koyo.walkerplus.com/onsen/detail/ar0313s475336/data.html" target="_blank" rel="noopener">濑音之汤价格</a></li>
+      <li><a href="https://www.gotokyo.org/jp/spot/806/index.html" target="_blank" rel="noopener">払沢の滝（GO TOKYO）</a></li>
+      <li><a href="https://www.walkerplus.com/spot/ar0313s365496/price.html" target="_blank" rel="noopener">澤乃井酒窖参观</a></li>
+      <li><a href="https://kaibutsu-blog.com/showakinen-autumn-nightwalk-guide/" target="_blank" rel="noopener">昭和纪念公园秋季活动</a></li>
+    </ul>
+    <details class="credits"><summary>照片来源（Wikimedia Commons，按署名许可使用）</summary><ul class="sources" id="photoCredits"></ul></details>
+    <p class="foot">资料查于 2026 年 11 月 13 日。价格和开放时间可能会变，出发前以官方为准。地图是示意图，位置大致准确，导航请点每站的 Google 地图按钮。</p>
+  </section>
+</div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const NS = 'http://www.w3.org/2000/svg';
+const RM = matchMedia('(prefers-reduced-motion: reduce)');
+const DESK = matchMedia('(min-width: 920px)');
+
+/* ---------- 投影：经纬度 → 地图坐标 ---------- */
+const LON0 = 138.985, LAT0 = 35.862, KX = 2857, KY = 3521;
+const P = (lon, lat) => [(lon - LON0) * KX, (LAT0 - lat) * KY];
+const gm = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+const gdir = (dest, wps) => 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=' +
+  encodeURIComponent(dest) + '&waypoints=' + wps.map(encodeURIComponent).join('%7C');
+const fmt = n => Math.round(n).toLocaleString('en-US');
+
+/* ---------- 行程数据 ---------- */
+const DAYS = {
+  1: { title: '御岳山 · 御岳溪谷 · 青梅', meta: '约 110 km · 晚上住奥多摩',
+       route: gdir('奥多摩駅', ['御岳登山鉄道 滝本駅', '御嶽駅', '澤乃井園', '鳩ノ巣渓谷']) },
+  2: { title: '奥多摩湖 · 周游道路 · 桧原 · 秋川', meta: '约 125 km · 泡完温泉回家',
+       route: gdir('秋川渓谷 瀬音の湯', ['小河内ダム', '月夜見第一駐車場', '檜原都民の森', '払沢の滝']) }
+};
+const STOPS = [
+  { id: 'takimoto', day: 1, t: '08:15', stay: '停车、上缆车', zh: '御岳山缆车 · 滝本站', short: '滝本站', ja: '御岳登山鉄道 滝本駅', lon: 139.1613, lat: 35.7960,
+    leg: { i: 'car', text: '<b>07:00</b> 从市中心出发：中央道转圏央道，青梅IC 下，再沿国道 411 往西。约 70 km，1 小时 20 分左右。' },
+    chips: [['停车·平日', '400/时，封顶 1,500'], ['停车·周末', '450/时，封顶 2,000'], ['缆车往返', '1,400']],
+    body: '先来这里是为了抢车位。停车场 136 个位，7:10 开门，周末 10 点到 13 点最容易停满。缆车约 6 分钟上山。',
+    tips: ['缆车 10 月 1 日刚涨价，往返票两天内有效。'] },
+  { id: 'jinja', day: 1, t: '09:00', stay: '约 2 小时', zh: '武藏御岳神社', short: '御岳神社', ja: '武蔵御嶽神社', lon: 139.1503, lat: 35.7831,
+    leg: { i: 'cable', text: '缆车 6 分钟到山上，再沿参道走约 35 分钟，两边是宿坊村子。' },
+    chips: [['参拜', '免费'], ['海拔', '929 m']],
+    body: '山顶上的老神社，天气好能看到关东平原。今年山上红叶偏晚，预报说 11 月 18 日前后才到最好看的时候。',
+    tips: ['体力好可以加走岩石园溪谷步道（ロックガーデン），多 2–3 小时。这样下午只留溪谷，青梅就别去了。'] },
+  { id: 'keikoku', day: 1, t: '11:45', stay: '1 小时多', zh: '御岳溪谷散步', short: '御岳溪谷', ja: '御岳渓谷', lon: 139.1848, lat: 35.8009,
+    leg: { i: 'car', text: '缆车下山，开车约 5 分钟到御岳站一带停车。御岳苑地 100/时，御岳交流中心 500/次（2025 年资料）。' },
+    chips: [['费用', '免费'], ['步行', '约 4 km']],
+    body: '从御岳站沿多摩川的河边步道往下游走到沢井，一路是红叶、吊桥和皮划艇。山谷里的叶子一般 11 月中下旬最好看。',
+    tips: ['只走单程。回来坐 JR 青梅线一站（沢井 → 御嶽）回停车处。'] },
+  { id: 'sawanoi', day: 1, t: '13:00', stay: '1–1.5 小时', zh: '澤乃井园 · 小泽酒造', short: '澤乃井园', ja: '澤乃井園', lon: 139.1937, lat: 35.8041,
+    leg: { i: 'walk', text: '沿河边步道走到沢井。' },
+    chips: [['酒窖参观', '13:00 / 14:00，要预约'], ['参观费', '免费或 700，说法不一']],
+    body: '酒厂对面的河边庭园，有简餐、豆腐和清酒，适合在这里吃午饭。酒窖参观 30–45 分钟。',
+    tips: ['司机一口都不能喝，试饮留给乘客。'] },
+  { id: 'ome', day: 1, t: '15:00', stay: '约 1 小时', opt: true, zh: '青梅铁道公园', short: '青梅', ja: '青梅鉄道公園', lon: 139.2634, lat: 35.7929,
+    leg: { i: 'car', text: '往东开约 20 分钟。' },
+    chips: [['开放时间', '翻新后的时间先查官网']],
+    body: '2026 年 3 月翻新重开，展出 13 辆老车，全都加了顶棚。喜欢铁路或带孩子才值得专门绕回来；不来的话直接往西去鸠之巢。',
+    tips: [] },
+  { id: 'hatonosu', day: 1, t: '16:00', stay: '20–30 分钟', zh: '鸠之巢溪谷', short: '鸠之巢溪谷', ja: '鳩ノ巣渓谷', lon: 139.1292, lat: 35.8132,
+    leg: { i: 'car', text: '沿国道 411 往西约 35 分钟。从沢井直接过来约 15 分钟。' },
+    chips: [['费用', '免费']],
+    body: '一小段岩石峡谷加吊桥，下车走一圈就好。16:30 左右天就黑了，看完就去住处。',
+    tips: [] },
+  { id: 'stay', day: 1, t: '16:45', stay: '住一晚', zh: '奥多摩站一带住宿', short: '奥多摩（住）', ja: '奥多摩駅', lon: 139.0966, lat: 35.8096,
+    leg: { i: 'car', text: '开车约 10 分钟。' },
+    chips: [['旅馆或民宿', '含两餐 约 1–2 万/人（估）']],
+    body: '奥多摩站附近有旅馆和民宿，离第二天的奥多摩湖只有 15 分钟。住处没温泉的话，车站旁有もえぎの湯，价格出发前查。',
+    tips: ['11/21–23 三连休要尽快订。', '开车不建议住御岳山顶的宿坊：车只能停山下，停车场开到 19:00，能不能过夜要先问。'] },
+
+  { id: 'nippara', day: 2, t: '09:00', stay: '40–60 分钟', opt: true, zh: '日原钟乳洞', short: '日原钟乳洞', ja: '日原鍾乳洞', lon: 139.0408, lat: 35.8524,
+    leg: { i: 'car', text: '<b>08:30</b> 退房，往北开约 25 分钟。后半段路很窄，会车要让。' },
+    chips: [['门票', '900'], ['洞内', '常年约 11°C']],
+    body: '关东有名的大钟乳洞，标准路线走 40 分钟，加上新洞约 1 小时。11 点到 14 点容易停满、路上堵，要去就一开门就到。',
+    tips: ['停车免费，但车位不多。'] },
+  { id: 'dam', day: 2, t: '10:15', stay: '20–30 分钟', zh: '奥多摩湖 · 小河内大坝', short: '小河内大坝', ja: '小河内ダム', lon: 139.0513, lat: 35.7899,
+    leg: { i: 'car', text: '开车约 30 分钟。不去钟乳洞的话，从住处过来 15 分钟。' },
+    chips: [['停车', '免费']],
+    body: '东京的水库。走上坝顶，一边是整片湖，一边是多摩川的峡谷。',
+    tips: [] },
+  { id: 'tsukiyomi', day: 2, t: '10:45', stay: '15–20 分钟', zh: '周游道路 · 月夜见第一停车场', short: '月夜见停车场', ja: '月夜見第一駐車場', lon: 139.0336, lat: 35.7667,
+    leg: { i: 'car', text: '沿湖往西，过深山桥转进奥多摩周游道路，约 20 分钟。' },
+    chips: [['道路', '免费'], ['开放', '10–3 月约 9:00–18:00（民间说法）']],
+    body: '周游道路是一条沿山脊的观景弯路，这个停车场正好俯瞰奥多摩湖。海拔一千米以上的叶子，到 11 月中旬多半已经过了最好的时候。',
+    tips: ['下大雨、结冰会封路，出发前查一下。'] },
+  { id: 'tomin', day: 2, t: '11:20', stay: '20–40 分钟', opt: true, zh: '桧原都民之森', short: '都民之森', ja: '檜原都民の森', lon: 139.0455, lat: 35.7322,
+    leg: { i: 'car', text: '翻过风张峠，开车约 15 分钟。' },
+    chips: [['停车', '免费，约 100 个位（旧资料）']],
+    body: '三头山脚下的森林公园，顺路下车走一小段木道就好。',
+    tips: [] },
+  { id: 'kazuma', day: 2, t: '12:00', stay: '约 1 小时', zh: '午饭 · 数马一带', short: '数马（午饭）', ja: '数馬', lon: 139.0571, lat: 35.7270,
+    leg: { i: 'car', text: '下山约 5 分钟。' },
+    chips: [['荞麦面', '约 1,500/人（估）']],
+    body: '桧原街道沿路有几家荞麦面和山菜定食，周末中午要排队。',
+    tips: [] },
+  { id: 'hossawa', day: 2, t: '13:15', stay: '45–60 分钟', zh: '払沢の滝', short: '払沢の滝', ja: '払沢の滝', lon: 139.1400, lat: 35.7305,
+    leg: { i: 'car', text: '沿桧原街道往东约 20 分钟。' },
+    chips: [['费用', '免费'], ['停车', '车位少']],
+    body: '日本瀑布百选之一。停好车再走约 15 分钟上坡小路。',
+    tips: [] },
+  { id: 'ishifune', day: 2, t: '14:30', stay: '30–45 分钟', zh: '秋川溪谷 · 石舟桥', short: '石舟桥', ja: '石舟橋', lon: 139.1898, lat: 35.7265,
+    leg: { i: 'car', text: '开车约 10 分钟。' },
+    chips: [['费用', '免费']],
+    body: '吊桥加河滩。秋川这一段的红叶一般 11 月中旬到下旬最好，是这趟看山谷红叶的主场。',
+    tips: [] },
+  { id: 'seoto', day: 2, t: '15:30', stay: '约 1.5 小时', zh: '濑音之汤', short: '濑音之汤', ja: '秋川渓谷 瀬音の湯', lon: 139.1881, lat: 35.7272,
+    leg: { i: 'walk', text: '就在石舟桥旁边，走过去几分钟。' },
+    chips: [['入浴', '平日 1,100 / 节假日 1,200']],
+    body: '泡完再上高速。周日傍晚中央道进城方向常堵，在这里多待一会儿，晚点走反而顺。',
+    tips: [] }
+];
+const END = { 2: { i: 'car', text: '<b>17:00</b> 从あきる野IC 上高速回市中心，约 50 km，不堵的话 1 小时左右。' } };
+const BY = {};
+const dayCount = { 1: 0, 2: 0 };
+STOPS.forEach(s => { BY[s.id] = s; s.n = ++dayCount[s.day]; [s.x, s.y] = P(s.lon, s.lat); });
+
+/* ---------- 地理线条（经度, 纬度） ---------- */
+const TAMA = [[139.0513,35.7899],[139.065,35.798],[139.085,35.806],[139.0966,35.8085],[139.108,35.8100],[139.1148,35.8108],[139.1290,35.8128],[139.140,35.8148],[139.1513,35.8143],[139.1625,35.8110],[139.172,35.8060],[139.1848,35.8003],[139.1938,35.8040],[139.2010,35.8062],[139.2077,35.8060],[139.220,35.7990],[139.2369,35.7858],[139.248,35.7855],[139.2586,35.7878],[139.272,35.7850],[139.290,35.7760],[139.316,35.7584],[139.345,35.7350]];
+const NIPPARA_R = [[139.0408,35.8524],[139.0445,35.8418],[139.060,35.8300],[139.080,35.8185],[139.0966,35.8088]];
+const AKI = [[139.0571,35.7262],[139.080,35.7222],[139.110,35.7222],[139.135,35.7243],[139.1489,35.7258],[139.165,35.7273],[139.1881,35.7260],[139.205,35.7283],[139.2282,35.7306],[139.250,35.7278],[139.275,35.7218],[139.300,35.7158],[139.345,35.7070]];
+const KITA = [[139.105,35.7520],[139.128,35.7410],[139.1489,35.7258]];
+const LAKE = [[139.0513,35.7899],[139.046,35.7938],[139.036,35.7958],[139.026,35.7944],[139.016,35.7932],[139.008,35.7922],[139.000,35.7890],[138.990,35.7888],[138.975,35.7884],[138.975,35.7852],[138.988,35.7850],[138.9905,35.7775],[138.9945,35.7768],[138.9968,35.7842],[139.004,35.7856],[139.013,35.7872],[139.023,35.7887],[139.033,35.7896],[139.043,35.7882],[139.0485,35.7880]];
+const LAKE_C = [[139.0513,35.7899],[139.03,35.7922],[139.008,35.7905],[138.98,35.787],[138.992,35.780]];
+const R411 = [[139.3199,35.7965],[139.300,35.7930],[139.280,35.7915],[139.2586,35.7905],[139.2369,35.7880],[139.222,35.7990],[139.2077,35.8078],[139.1938,35.8062],[139.1837,35.8018],[139.172,35.8085],[139.1625,35.8132],[139.1513,35.8160],[139.140,35.8165],[139.1287,35.8152],[139.1148,35.8122],[139.0966,35.8100],[139.085,35.8080],[139.070,35.8022],[139.060,35.7962],[139.0513,35.7912],[139.046,35.7955],[139.036,35.7976],[139.026,35.7962],[139.016,35.7951],[139.008,35.7941],[139.0005,35.7906],[138.975,35.7902]];
+const R139 = [[139.0005,35.7906],[139.0008,35.7830],[138.9995,35.7749]];
+const SHUYU = [[138.9995,35.7749],[139.008,35.7738],[139.020,35.7722],[139.0336,35.7667],[139.0315,35.7580],[139.0235,35.7500],[139.0300,35.7410],[139.0455,35.7322],[139.0571,35.7270]];
+const HINO = [[139.0571,35.7270],[139.080,35.7238],[139.110,35.7238],[139.135,35.7260],[139.1489,35.7270],[139.165,35.7288],[139.1881,35.7278],[139.205,35.7300],[139.2282,35.7325],[139.250,35.7295],[139.270,35.7230],[139.2843,35.7203]];
+const HOSSAWA_RD = [[139.1430,35.7266],[139.1400,35.7305]];
+const MITAKE_RD = [[139.1837,35.8018],[139.178,35.7990],[139.170,35.7975],[139.1613,35.7960]];
+const CABLE = [[139.1613,35.7960],[139.1536,35.7897]];
+const SHRINE_WALK = [[139.1536,35.7897],[139.1518,35.7866],[139.1503,35.7831]];
+const NIPPARA_RD = [[139.0966,35.8100],[139.085,35.8195],[139.065,35.8295],[139.0445,35.8420],[139.0408,35.8524]];
+const KENO = [[139.3199,35.7965],[139.312,35.7700],[139.292,35.7460],[139.2827,35.7328],[139.2843,35.7203],[139.290,35.7050],[139.300,35.6880]];
+const PEAKS = [['大岳山',139.1268,35.7655,1266],['御前山',139.0727,35.7618,1405],['三头山',139.0145,35.7375,1531],['日之出山',139.1745,35.7775,902]];
+const REGIONS = [
+  ['奥多摩湖',139.024,35.8010,'region'],['青梅',139.262,35.8070,'region'],['桧原村',139.100,35.7140,'region'],
+  ['多摩川',139.226,35.7935,'water'],['秋川',139.258,35.7215,'water'],['市中心 约 50 km →',139.336,35.7480,'hint']
+];
+const DAY_ROUTES = {
+  1: [ { pts: R411.slice(0, 16) }, { pts: MITAKE_RD }, { pts: CABLE, cls: 'cable' }, { pts: SHRINE_WALK, cls: 'walk' }, { pts: TAMA.slice(11, 13), cls: 'walk' } ],
+  2: [ { pts: NIPPARA_RD, cls: 'opt' }, { pts: [...R411.slice(15, 26), ...R139.slice(1), ...SHUYU.slice(1), ...HINO.slice(1)] }, { pts: HOSSAWA_RD } ]
+};
+
+/* ---------- 小工具 ---------- */
+const r1 = v => Math.round(v * 10) / 10;
+const proj = pts => pts.map(([lon, lat]) => P(lon, lat));
+function smooth(ll, closed) {
+  const p = proj(ll);
+  if (p.length < 3) return 'M' + p.map(q => r1(q[0]) + ' ' + r1(q[1])).join('L') + (closed ? 'Z' : '');
+  let d = `M${r1(p[0][0])} ${r1(p[0][1])}`;
+  for (let i = 0; i < p.length - 1; i++) {
+    const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+    d += `C${r1(p1[0] + (p2[0] - p0[0]) / 6)} ${r1(p1[1] + (p2[1] - p0[1]) / 6)} ${r1(p2[0] - (p3[0] - p1[0]) / 6)} ${r1(p2[1] - (p3[1] - p1[1]) / 6)} ${r1(p2[0])} ${r1(p2[1])}`;
+  }
+  return d + (closed ? 'Z' : '');
+}
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const tw = (str, fs) => { let w = 0; for (const ch of str) w += ch.charCodeAt(0) > 0x2e7f ? fs : fs * 0.6; return w; };
+
+/* ---------- 等高线（按真实山峰位置生成的示意地形） ---------- */
+function buildTerrain() {
+  const TP = [[139.1503,35.7831,929,40],[139.1268,35.7655,1266,55],[139.1745,35.7775,902,40],[139.0727,35.7618,1405,60],[139.035,35.765,1147,42],[139.0145,35.7375,1531,70],
+    [139.035,35.838,1737,85],[139.072,35.848,1363,60],[139.108,35.832,1225,50],[139.212,35.828,759,45],[139.100,35.738,903,45],[139.170,35.715,842,45],[139.080,35.705,1050,60],[139.0,35.81,1250,55],[138.985,35.765,1300,60]];
+  const RIDGES = [
+    [[139.1745,35.7775,850],[139.1503,35.7831,900],[139.1268,35.7655,1200],[139.0727,35.7618,1350],[139.035,35.765,1100],[139.0145,35.7375,1450]],
+    [[139.0,35.81,1200],[139.035,35.838,1650],[139.072,35.848,1300],[139.108,35.832,1150],[139.150,35.835,800],[139.212,35.828,700]],
+    [[139.025,35.735,1250],[139.100,35.738,880],[139.145,35.735,600]],
+    [[139.0145,35.7375,1400],[139.04,35.715,1150],[139.080,35.705,1000],[139.130,35.700,850],[139.170,35.715,800],[139.21,35.712,500]]
+  ];
+  const bed = x => 120 + 430 * Math.pow(Math.min(Math.max((1000 - x) / 810, 0), 1.3), 1.6);
+  const BASE = 170;
+  const peaks = TP.map(([lon, lat, e, r]) => { const [x, y] = P(lon, lat); return { x, y, a: e - (bed(x) + BASE), r2: r * r }; });
+  const segs = [];
+  RIDGES.forEach(line => { for (let i = 0; i < line.length - 1; i++) {
+    const [x1, y1] = P(line[i][0], line[i][1]), [x2, y2] = P(line[i + 1][0], line[i + 1][1]);
+    segs.push({ x1, y1, x2, y2, e1: line[i][2], e2: line[i + 1][2], L: (x2 - x1) ** 2 + (y2 - y1) ** 2 });
+  } });
+  const carve = [[TAMA], [NIPPARA_R], [AKI], [KITA], [LAKE_C, 530]].map(([line, fixed]) => {
+    const p = proj(line), s = [];
+    for (let i = 0; i < p.length - 1; i++) s.push({ x1: p[i][0], y1: p[i][1], x2: p[i + 1][0], y2: p[i + 1][1], L: (p[i + 1][0] - p[i][0]) ** 2 + (p[i + 1][1] - p[i][1]) ** 2 });
+    return { s, fixed };
+  });
+  const near = (x, y, s) => { let t = ((x - s.x1) * (s.x2 - s.x1) + (y - s.y1) * (s.y2 - s.y1)) / (s.L || 1); t = t < 0 ? 0 : t > 1 ? 1 : t;
+    const px = s.x1 + (s.x2 - s.x1) * t, py = s.y1 + (s.y2 - s.y1) * t; return [t, px, (x - px) ** 2 + (y - py) ** 2]; };
+  const noise = (x, y) => 34 * Math.sin(x * .031 + y * .017) + 24 * Math.sin(x * .013 - y * .041 + 1.3) + 15 * Math.sin(x * .067 + y * .053 + 2.1) + 9 * Math.sin(x * .11 - y * .09 + .7);
+
+  const X0 = -180, Y0 = -160, ST = 8, nx = 172, ny = 112;
+  const H = new Float32Array(nx * ny);
+  for (let j = 0; j < ny; j++) { const y = Y0 + j * ST;
+    for (let i = 0; i < nx; i++) { const x = X0 + i * ST;
+      let add = 0;
+      for (const p of peaks) { const v = p.a * Math.exp(-((x - p.x) ** 2 + (y - p.y) ** 2) / p.r2); if (v > add) add = v; }
+      for (const s of segs) { const [t, px, d2] = near(x, y, s); const v = (s.e1 + (s.e2 - s.e1) * t - (bed(px) + BASE)) * Math.exp(-d2 / 900); if (v > add) add = v; }
+      let h = bed(x) + BASE + add + noise(x, y);
+      for (const r of carve) { let dm = 1e12, bx = x;
+        for (const s of r.s) { const [, px, d2] = near(x, y, s); if (d2 < dm) { dm = d2; bx = px; } }
+        const bv = r.fixed ?? bed(bx), k = Math.exp(-dm / 700), c = bv + (h - bv) * (1 - .97 * k);
+        if (c < h) h = c; }
+      H[j * nx + i] = h;
+    } }
+  const paths = { n: '', i: '' };
+  for (let L = 300; L <= 1700; L += 100) {
+    let d = '';
+    for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) {
+      const a = H[j * nx + i], b = H[j * nx + i + 1], c = H[(j + 1) * nx + i + 1], e = H[(j + 1) * nx + i];
+      const idx = (a >= L ? 8 : 0) | (b >= L ? 4 : 0) | (c >= L ? 2 : 0) | (e >= L ? 1 : 0);
+      if (idx === 0 || idx === 15) continue;
+      const x = X0 + i * ST, y = Y0 + j * ST;
+      const T = () => [x + ST * (L - a) / (b - a), y], R = () => [x + ST, y + ST * (L - b) / (c - b)],
+            B = () => [x + ST * (L - e) / (c - e), y + ST], Lf = () => [x, y + ST * (L - a) / (e - a)];
+      const pairs = { 1: [[Lf, B]], 2: [[B, R]], 3: [[Lf, R]], 4: [[T, R]], 5: [[T, R], [Lf, B]], 6: [[T, B]], 7: [[T, Lf]], 8: [[T, Lf]], 9: [[T, B]], 10: [[T, Lf], [B, R]], 11: [[T, R]], 12: [[Lf, R]], 13: [[B, R]], 14: [[Lf, B]] }[idx];
+      for (const [f, g] of pairs) { const p = f(), q = g(); d += `M${r1(p[0])} ${r1(p[1])}L${r1(q[0])} ${r1(q[1])}`; }
+    }
+    if (L % 500 === 0) paths.i += d; else paths.n += d;
+  }
+  el('path', { d: paths.n, class: 'ctr' }, $('#gTerrain'));
+  el('path', { d: paths.i, class: 'ctr idx' }, $('#gTerrain'));
+}
+
+/* ---------- 地图静态层 ---------- */
+const svg = $('#map'), card = $('#mapCard'), mapCol = $('#mapCol');
+const SCALED = [];   // 需要保持屏幕大小不变的组
+const LABELS = [];   // 参与避让的文字
+let PIN_EL = {};
+function buildMap() {
+  buildTerrain();
+  const gw = $('#gWater');
+  el('path', { d: smooth(LAKE, true), class: 'lake' }, gw);
+  [TAMA, NIPPARA_R, AKI, KITA].forEach(r => el('path', { d: smooth(r), class: 'riv' }, gw));
+  const gr = $('#gRoads');
+  const roads = [R411, R139, SHUYU, HINO, MITAKE_RD, NIPPARA_RD, HOSSAWA_RD];
+  el('path', { d: smooth(KENO), class: 'rd hcase' }, gr);
+  roads.forEach(r => el('path', { d: smooth(r), class: 'rd case' }, gr));
+  el('path', { d: smooth(KENO), class: 'rd hfill' }, gr);
+  roads.forEach(r => el('path', { d: smooth(r), class: 'rd fill' }, gr));
+  const gro = $('#gRoutes');
+  [1, 2].forEach(d => {
+    const g = el('g', { class: 'rgrp d' + d, id: 'r' + d }, gro);
+    DAY_ROUTES[d].forEach(r => { if (!r.cls) el('path', { d: smooth(r.pts), class: 'route-case' }, g); });
+    DAY_ROUTES[d].forEach(r => el('path', { d: smooth(r.pts), class: 'route' + (r.cls ? ' ' + r.cls : '') }, g));
+  });
+  const gm_ = $('#gMarks');
+  PEAKS.forEach(([name, lon, lat, e]) => {
+    const [x, y] = P(lon, lat);
+    const g = el('g', { class: 'peak' }, gm_);
+    el('path', { d: 'M0 -5.5L5.5 4.5L-5.5 4.5Z' }, g);
+    const t = el('text', { class: 'lbl', x: 9, y: 4 }, g); t.textContent = name + ' ' + e;
+    SCALED.push({ g, x, y });
+    LABELS.push({ t, x, y, w: tw(t.textContent, 11), h: 13, kind: 'peak', prio: 6 });
+  });
+  REGIONS.forEach(([name, lon, lat, cls]) => {
+    const [x, y] = P(lon, lat);
+    const g = el('g', { class: 'region ' + cls }, gm_);
+    const t = el('text', { class: 'lbl', x: 0, y: 0 }, g); t.textContent = name;
+    const fs = cls === 'region' ? 15 : cls === 'water' ? 12 : 11.5;
+    const w = tw(name, fs) + (cls === 'region' ? name.length * 3 : cls === 'water' ? name.length * 3.6 : 0);
+    SCALED.push({ g, x, y });
+    LABELS.push({ t, x, y, w, h: fs + 2, kind: cls, prio: cls === 'hint' ? 4 : 5 });
+  });
+  const gp = $('#gPins');
+  [1, 2].forEach(d => {
+    const pg = el('g', { class: 'pgrp', id: 'p' + d }, gp);
+    STOPS.filter(s => s.day === d).forEach(s => {
+      const g = el('g', { class: `pin d${d}${s.opt ? ' opt' : ''}`, 'data-id': s.id }, pg);
+      el('circle', { class: 'halo', r: 15 }, g);
+      el('circle', { class: 'dot', r: 11 }, g);
+      const n = el('text', { class: 'n', y: 4 }, g); n.textContent = s.n;
+      const t = el('text', { class: 'lbl', x: 15, y: 4 }, g); t.textContent = s.short;
+      SCALED.push({ g, x: s.x, y: s.y });
+      PIN_EL[s.id] = g;
+      LABELS.push({ t, x: s.x, y: s.y, w: tw(s.short, 12.5), h: 16, kind: 'pin', stop: s });
+    });
+  });
+}
+
+/* ---------- 视角 ---------- */
+const view = { cx: 500, cy: 280, w: 1000 };
+const PAD = { t: 56, r: 58, b: 46, l: 18 };
+const clampW = w => Math.min(1500, Math.max(110, w));
+const dims = () => { const r = card.getBoundingClientRect(); return [r.width || 1000, r.height || 600]; };
+function viewForBox(x0, y0, x1, y1) {
+  const [W, H] = dims();
+  const aw = Math.max(60, W - PAD.l - PAD.r), ah = Math.max(60, H - PAD.t - PAD.b);
+  const k0 = Math.min(aw / Math.max(x1 - x0, 60), ah / Math.max(y1 - y0, 60));
+  const w = clampW(W / k0), k = W / w;
+  return { cx: (x0 + x1) / 2 - (PAD.l - PAD.r) / (2 * k), cy: (y0 + y1) / 2 - (PAD.t - PAD.b) / (2 * k), w };
+}
+function viewForStops(list) {
+  const xs = list.map(s => s.x), ys = list.map(s => s.y);
+  return viewForBox(Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys));
+}
+const viewForDay = d => viewForStops(d ? STOPS.filter(s => s.day === d) : STOPS);
+function viewForStop(s) {
+  const [W] = dims();
+  const k = Math.min(2.6, Math.max(1.35, W / 240));
+  return { cx: s.x - (PAD.l - PAD.r) / (2 * k), cy: s.y - (PAD.t - PAD.b) / (2 * k), w: W / k };
+}
+let anim = 0;
+function flyTo(t) {
+  cancelAnimationFrame(anim);
+  if (RM.matches) { Object.assign(view, t); render(); return; }
+  const f = { ...view }, t0 = performance.now(), D = 700;
+  const step = now => {
+    let p = Math.min(1, (now - t0) / D);
+    p = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+    view.cx = f.cx + (t.cx - f.cx) * p; view.cy = f.cy + (t.cy - f.cy) * p;
+    view.w = Math.exp(Math.log(f.w) + (Math.log(t.w) - Math.log(f.w)) * p);
+    render();
+    if (p < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+function zoomAt(f, mx, my) {
+  const [W, H] = dims();
+  const s = view.w / W, h = view.w * H / W;
+  const wx = view.cx - view.w / 2 + mx * s, wy = view.cy - h / 2 + my * s;
+  const nw = clampW(view.w * f), ns = nw / W, nh = nw * H / W;
+  view.cx = wx - mx * ns + nw / 2; view.cy = wy - my * ns + nh / 2; view.w = nw;
+}
+
+/* ---------- 每帧重画：视窗、图标大小、文字避让 ---------- */
+const OVERLAYS = ['.m-tabs', '.m-zoom', '#mLegend', '#follow', '#mToast'].map(s => $(s));
+function render() {
+  const [W, H] = dims();
+  view.cx = Math.min(1150, Math.max(-150, view.cx)); view.cy = Math.min(680, Math.max(-120, view.cy));
+  const w = view.w, h = w * H / W, vx = view.cx - w / 2, vy = view.cy - h / 2, k = W / w, s = 1 / k;
+  svg.setAttribute('viewBox', `${r1(vx)} ${r1(vy)} ${r1(w)} ${r1(h)}`);
+  for (const it of SCALED) it.g.setAttribute('transform', `translate(${r1(it.x)} ${r1(it.y)}) scale(${s.toFixed(4)})`);
+  const cr = card.getBoundingClientRect();
+  const boxes = OVERLAYS.filter(o => o && !o.hidden).map(o => { const r = o.getBoundingClientRect(); return { x: r.left - cr.left - 4, y: r.top - cr.top - 4, w: r.width + 8, h: r.height + 8 }; });
+  const hit = b => b.x < 2 || b.y < 2 || b.x + b.w > W - 2 || b.y + b.h > H - 2 || boxes.some(o => b.x < o.x + o.w && b.x + b.w > o.x && b.y < o.y + o.h && b.y + b.h > o.y);
+  const scr = (x, y) => [(x - vx) * k, (y - vy) * k];
+  STOPS.forEach(st => { const [sx, sy] = scr(st.x, st.y); boxes.push({ x: sx - 11, y: sy - 11, w: 22, h: 22 }); });
+  if (ME.item) { const [sx, sy] = scr(ME.x, ME.y); boxes.push({ x: sx - 10, y: sy - 10, w: 20, h: 20 }); }
+  const prio = l => {
+    if (l.kind !== 'pin') return l.prio;
+    const st = l.stop;
+    if (st.id === activeId) return 0;
+    if (activeDay && st.day !== activeDay) return 3;
+    return st.opt ? 2 : 1;
+  };
+  const order = LABELS.slice().sort((a, b) => prio(a) - prio(b));
+  for (const l of order) {
+    const [sx, sy] = scr(l.x, l.y), lw = l.w + 4;
+    if (l.kind === 'pin' || l.kind === 'peak') {
+      const off = l.kind === 'pin' ? 15 : 9, hh = l.h;
+      const cands = [[off, -hh / 2, 'start', off, 4], [-off - lw, -hh / 2, 'end', -off, 4]];
+      if (l.kind === 'pin') cands.push([-lw / 2, -31, 'middle', 0, -18], [-lw / 2, 14, 'middle', 0, 27]);
+      let ok = null;
+      for (const c of cands) { const b = { x: sx + c[0], y: sy + c[1], w: lw, h: hh }; if (!hit(b)) { ok = [c, b]; break; } }
+      if (!ok && l.kind === 'pin' && l.stop.id === activeId) { const c = cands[0]; ok = [c, { x: sx + c[0], y: sy + c[1], w: lw, h: hh }]; }
+      if (ok) { const [c, b] = ok; l.t.setAttribute('x', c[3]); l.t.setAttribute('y', c[4]); l.t.setAttribute('text-anchor', c[2]); l.t.style.display = ''; boxes.push(b); }
+      else l.t.style.display = 'none';
+    } else {
+      const b = l.kind === 'hint' ? { x: sx - lw, y: sy - l.h + 2, w: lw, h: l.h } : { x: sx - lw / 2, y: sy - l.h + 2, w: lw, h: l.h };
+      if (!hit(b)) { l.t.style.display = ''; boxes.push(b); } else l.t.style.display = 'none';
+    }
+  }
+}
+
+/* ---------- 状态 ---------- */
+let activeId = null, activeDay = 0, follow = true, quiet = false, quietT = 0;
+const followBtn = $('#follow');
+function setFollow(v) { follow = v; followBtn.hidden = v; }
+function syncUI() {
+  $$('.pin').forEach(p => p.classList.toggle('active', p.dataset.id === activeId));
+  $$('.row.stop').forEach(r => r.classList.toggle('active', r.dataset.id === activeId));
+  $$('.m-tabs button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.view === activeDay)));
+  [1, 2].forEach(d => { const dim = !!activeDay && activeDay !== d; $('#r' + d).classList.toggle('dim', dim); $('#p' + d).classList.toggle('dim', dim); });
+  if (activeId) { const g = PIN_EL[activeId]; g.parentNode.appendChild(g); }
+}
+function select(id, fly) {
+  activeId = id; activeDay = BY[id].day; syncUI();
+  if (fly === 'force' || (fly === 'follow' && follow)) flyTo(viewForStop(BY[id])); else render();
+}
+function quietScroll(target) {
+  quiet = true; clearTimeout(quietT);
+  target.scrollIntoView({ behavior: RM.matches ? 'auto' : 'smooth', block: 'start' });
+  quietT = setTimeout(() => { quiet = false; }, 950);
+}
+function showDay(d) {
+  activeDay = d; activeId = null; setFollow(true); syncUI();
+  flyTo(viewForDay(d));
+  quietScroll(d ? $('#day' + d) : $('#trip'));
+}
+
+/* ---------- 照片（Wikimedia Commons，署名许可） ---------- */
+// a 作者，l 许可，lu 许可链接，u 原图页，pos 裁切焦点，alt 说明
+const CC = v => 'https://creativecommons.org/licenses/' + v;
+const CM = f => 'https://commons.wikimedia.org/wiki/File:' + f;
+const PHOTOS = {
+  hero:      { a: 'Raita Futo', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Autumn_in_Okutama_(51045707901).jpg'), w: 1600, h: 1067, pos: '50% 45%', alt: '奥多摩的红枫，背后是蓝天' },
+  takimoto:  { a: 'ume-y', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Mitake_Tozan_Railway_2011-10-08_01.jpg'), w: 1080, h: 718, pos: '50% 62%', alt: '御岳登山铁道的蓝色缆车开进树林里的轨道' },
+  jinja:     { a: 'Guilhem Vellut', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Mitake_Shrine_@_Hike_from_Mitake_to_Okutama_(10181604905).jpg'), w: 1080, h: 810, pos: '50% 48%', alt: '武藏御岳神社的鸟居和石阶，尽头是朱红色的门' },
+  keikoku:   { a: 'Guilhem Vellut', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Mitake_Valley_@_Tama_River_Walk_@_Ome_City_(13165381873).jpg'), w: 1080, h: 810, pos: '50% 55%', alt: '御岳溪谷，多摩川绕过大块岩石' },
+  sawanoi:   { a: '江戸村のとくぞう', l: 'CC BY-SA 4.0', lu: CC('by-sa/4.0/'), u: CM('Ozawa_shuzo_211009.jpg'), w: 1080, h: 721, pos: '50% 50%', alt: '小泽酒造的「泽乃井」纯米大吟酿' },
+  ome:       { a: 'Saigen Jiro', l: 'CC0', lu: 'https://creativecommons.org/publicdomain/zero/1.0/', u: CM('9600_9608_in_Ome_Railway_Park.jpg'), w: 1080, h: 720, pos: '50% 60%', alt: '青梅铁道公园里展示的蒸汽机车' },
+  hatonosu:  { a: 'Volfgang', l: 'CC BY-SA 3.0', lu: CC('by-sa/3.0/'), u: CM('Autumn_at_Hatonosu_Ravine_1.jpg'), w: 1080, h: 810, pos: '50% 62%', alt: '秋天的鸠之巢溪谷，红叶和岩壁间的溪流' },
+  stay:      { a: 'Rory trains', l: 'CC BY-SA 4.0', lu: CC('by-sa/4.0/'), u: CM('Okutama_Station_building_1.jpg'), w: 1080, h: 810, pos: '50% 42%', alt: '奥多摩站的木造站房，背后是山' },
+  nippara:   { a: 'Dick Thomas Johnson', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Nippara_Cave_(15317421728).jpg'), w: 1080, h: 810, pos: '50% 40%', alt: '日原钟乳洞的入口和溪谷' },
+  dam:       { a: 'Yamaguchi Yoshiaki', l: 'CC BY-SA 2.0', lu: CC('by-sa/2.0/'), u: CM('Okutama_lake(Ogouchi_dam)_(3045568709).jpg'), w: 1080, h: 720, pos: '50% 50%', alt: '小河内坝和奥多摩湖的倒影' },
+  tsukiyomi: { a: 'TMC48', l: 'CC BY-SA 3.0', lu: CC('by-sa/3.0/'), u: 'https://commons.wikimedia.org/wiki/File:%E6%9C%88%E5%A4%9C%E8%A6%8B%E3%81%8B%E3%82%89%E3%81%AE%E5%B1%95%E6%9C%9B-01_-_panoramio.jpg', w: 1080, h: 810, pos: '50% 62%', alt: '从月夜见停车场往下看奥多摩湖和群山' },
+  tomin:     { a: '拓実 橋本', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Mito_Great_Falls_2014.jpg'), w: 1080, h: 810, pos: '50% 45%', alt: '都民之森的三头大瀑布' },
+  kazuma:    { a: '誾千代', l: 'CC BY-SA 4.0', lu: CC('by-sa/4.0/'), u: 'https://commons.wikimedia.org/wiki/File:%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%AA%9C%E5%8E%9F%E6%9D%91%E6%95%B0%E9%A6%AC.JPG', w: 1080, h: 810, pos: '50% 40%', alt: '数马的山路和茅草屋顶的老民宅' },
+  hossawa:   { a: 'Guilhem Vellut', l: 'CC BY 2.0', lu: CC('by/2.0/'), u: CM('Hossawa_Falls_@_Hinohara_(13973122967).jpg'), w: 1080, h: 810, pos: '50% 45%', alt: '通往払泽瀑布的林间步道' },
+  ishifune:  { a: 'Hiroaki Kaneko', l: 'CC BY-SA 2.0', lu: CC('by-sa/2.0/'), u: CM('Akigawa_River_in_the_autumn.jpg'), w: 1080, h: 810, pos: '50% 62%', alt: '秋天的秋川，吊桥横过蓝色的河' },
+  seoto:     { a: '散歩', l: '公有领域', lu: 'https://commons.wikimedia.org/wiki/Commons:Public_domain', u: 'https://commons.wikimedia.org/wiki/File:%E7%A7%8B%E5%B7%9D%E6%B8%93%E8%B0%B7%E7%80%AC%E9%9F%B3%E3%81%AE%E6%B9%AF%E3%81%AE%E8%B6%B3%E6%B9%AF.JPG', w: 1080, h: 810, pos: '50% 55%', alt: '濑音之汤的木造足汤亭' }
+};
+function photo(id, cls) {
+  const p = PHOTOS[id]; if (!p) return '';
+  return `<figure class="${cls}"><img src="img/${id}.webp" alt="${p.alt}" width="${p.w}" height="${p.h}"${id === 'hero' ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async" style="object-position:${p.pos || '50% 50%'}"><a class="cred" href="${p.u}" target="_blank" rel="noopener">© ${p.a} · ${p.l}</a></figure>`;
+}
+function renderPhotos() {
+  const h = $('#heroPhoto'); if (PHOTOS.hero) { h.outerHTML = photo('hero', 'hero-photo'); }
+  const list = $('#photoCredits'); if (!list) return;
+  const name = id => id === 'hero' ? '封面' : BY[id].short;
+  list.innerHTML = Object.entries(PHOTOS).map(([id, p]) => `<li>${name(id)}：<a href="${p.u}" target="_blank" rel="noopener">${p.a}</a>，<a href="${p.lu}" target="_blank" rel="noopener">${p.l}</a></li>`).join('');
+}
+
+/* ---------- 行程列表 ---------- */
+const ICON = {
+  car: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 11.5l1.5-4.2A2 2 0 0 1 8.4 6h7.2a2 2 0 0 1 1.9 1.3l1.5 4.2M4 11.5h16V16H4z"/><circle cx="7.5" cy="17.5" r="1.6" fill="currentColor" stroke="none"/><circle cx="16.5" cy="17.5" r="1.6" fill="currentColor" stroke="none"/></svg>',
+  walk: '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="8.5" cy="8" rx="2.6" ry="4"/><ellipse cx="15.5" cy="15.5" rx="2.6" ry="4"/></svg>',
+  cable: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5L21 4M12 5.8V9"/><rect x="7" y="9" width="10" height="9" rx="2"/><path d="M7 13h10"/></svg>'
+};
+function renderList() {
+  const leg = l => `<li class="row leg"><div class="mk"><span class="leg-ic">${ICON[l.i]}</span></div><p class="leg-text">${l.text}</p></li>`;
+  const stop = s => `<li class="row stop${s.opt ? ' opt' : ''}" data-id="${s.id}">
+    <div class="mk"><span class="num">${s.n}</span></div>
+    <article class="card" tabindex="0" aria-label="${s.zh}">${photo(s.id, 'c-photo')}
+      <div class="c-top"><span class="c-time">${s.t}</span><span class="c-stay">${s.stay}</span>${s.opt ? '<span class="badge-opt">可选</span>' : ''}<span class="c-dist" hidden></span></div>
+      <h3>${s.zh}</h3>
+      <p class="ja">${s.ja}</p>
+      <div class="chips">${s.chips.map(([a, b]) => `<span class="chip"><b>${a}</b>${b}</span>`).join('')}</div>
+      <p class="body">${s.body}</p>
+      ${s.tips.length ? `<ul class="tips">${s.tips.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
+      <a class="nav" href="${gm(s.ja)}" target="_blank" rel="noopener">在 Google 地图打开 ↗</a>
+    </article></li>`;
+  $('#list').innerHTML = [1, 2].map(d => {
+    const rows = STOPS.filter(s => s.day === d).map(s => leg(s.leg) + stop(s)).join('') + (END[d] ? leg(END[d]) : '');
+    return `<section class="day" data-day="${d}" id="day${d}" aria-labelledby="dh${d}">
+      <header class="day-head" data-day-head="${d}"><span class="day-tag">第 ${d} 天</span><h2 id="dh${d}">${DAYS[d].title}</h2>
+      <div class="day-meta"><span>${DAYS[d].meta}</span><a class="route-btn" href="${DAYS[d].route}" target="_blank" rel="noopener">整天路线导航 ↗</a></div></header>
+      <ol class="stops">${rows}</ol></section>`;
+  }).join('') + '<p class="note list-note">整天路线导航在手机上可能只带上前几个途经点，以每站的单独导航为准。</p>';
+}
+
+/* ---------- 红叶时间条 ---------- */
+function renderGantt() {
+  const N = 40, pc = v => (v / N * 100).toFixed(2) + '%';
+  const now = new Date(), off = Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(2026, 10, 1)) / 864e5);
+  const showToday = off >= 0 && off < N;
+  const rows = [
+    { n: '高处 · 周游道路、都民之森', a: '1,000 m 以上', c: '--d1-line', solid: [[0, 8]], soft: [[8, 13]], cut: true },
+    { n: '御岳山', a: '929 m', c: '--d1-line', solid: [[17, 29]], soft: [[9, 17], [29, 33]] },
+    { n: '山谷 · 御岳溪谷、秋川、鸠之巢', a: '200–500 m', c: '--d1-line', solid: [[14, 29]], soft: [[7, 14], [29, 35]] },
+    { n: '昭和纪念公园银杏', a: '立川', c: '--d2-line', solid: [[14, 29]], soft: [[4, 14]] }
+  ];
+  const ticks = [[0, '11/1', 'first'], [9, '11/10'], [19, '11/20'], [29, '11/30'], [39, '12/10', 'last']];
+  let axis = ticks.map(([d, l, c]) => `<span class="${c || ''}" style="left:${pc(c === 'last' ? 40 : d)}">${l}</span>`).join('');
+  const m = now.getMonth() + 1, dd = now.getDate();
+  if (showToday) axis = axis.replace(/<span class=""[^>]*>[^<]*<\/span>/g, t => { const left = parseFloat(t.match(/left:([\d.]+)/)[1]); return Math.abs(left - (off + .5) / N * 100) < 9 ? '' : t; }) +
+    `<span class="today" style="left:${pc(off + .5)}">今天 ${m}/${dd}</span>`;
+  const track = r => `<div class="g-track" style="--c:var(${r.c})">
+      <span class="g-hol" style="left:${pc(20)};width:${pc(3)}"></span>
+      ${r.soft.map(([a, b]) => `<span class="g-bar soft" style="left:${pc(a)};width:${pc(b - a)}"></span>`).join('')}
+      ${r.solid.map(([a, b]) => `<span class="g-bar${r.cut && a === 0 ? ' cut' : ''}" style="left:${pc(a)};width:${pc(b - a)}"></span>`).join('')}
+      ${showToday ? `<span class="g-today" style="left:${pc(off + .5)}"></span>` : ''}</div>`;
+  $('#gantt').innerHTML = `<div class="g-axis" aria-hidden="true">${axis}</div>` +
+    rows.map(r => `<div class="g-row"><div class="g-label">${r.n}<small>${r.a}</small></div>${track(r)}</div>`).join('');
+}
+
+/* ---------- 花费 ---------- */
+const B = { people: 2, car: 'rent', dayType: 'weekend', lodge: 'ryokan', opt: { cable: true, cave: true, onsen: true, brew: true } };
+const LODGE = { ryokan: { name: '奥多摩旅馆，含两餐', pp: 15000 }, minshuku: { name: '民宿，含两餐', pp: 10000 }, hotel: { name: '商务酒店，不含餐', pp: 7000, dinner: 2500 } };
+function renderBudget() {
+  const n = B.people, wk = B.dayType === 'weekend', big = n > 5, L = LODGE[B.lodge];
+  const items = [
+    B.car === 'rent' && { cat: 'car', name: big ? '租七座车 2 天' : '租小型车 2 天', car: big ? 26000 : 17500, est: 1, ds: '按租车公司常见价估' },
+    { cat: 'car', name: '高速往返', car: 4000, est: 1, ds: '出发前在 NEXCO「ドラぷら」查准' },
+    { cat: 'car', name: '油费', car: big ? 3400 : 2700, est: 1, ds: '全程约 230 km' },
+    { cat: 'car', name: '停车', car: (wk ? 2000 : 1500) + 300, est: 1, ds: `滝本站封顶 ${wk ? '2,000' : '1,500'}，御岳一带约 300` },
+    B.opt.cable && { cat: 'tix', name: '御岳山缆车往返', pp: 1400 },
+    B.opt.cave && { cat: 'tix', name: '日原钟乳洞', pp: 900 },
+    B.opt.onsen && { cat: 'tix', name: '濑音之汤', pp: wk ? 1200 : 1100 },
+    B.opt.brew && { cat: 'tix', name: '酒窖参观', pp: 700, ds: '有的说免费，这里按 700 算' },
+    { cat: 'stay', name: L.name, pp: L.pp, est: 1 },
+    L.dinner && { cat: 'food', name: '第一天晚饭', pp: L.dinner, est: 1 },
+    { cat: 'food', name: '两顿午饭', pp: 3600, est: 1, ds: '每顿约 1,800' },
+    { cat: 'food', name: '零食和咖啡', pp: 1000, est: 1 }
+  ].filter(Boolean);
+  items.forEach(i => { i.per = i.car ? i.car / n : i.pp; });
+  const total = items.reduce((a, i) => a + i.per, 0);
+  const cats = [['car', '车和路'], ['tix', '门票和温泉'], ['stay', '住宿'], ['food', '吃饭']].map(([c, l]) => [c, l, items.filter(i => i.cat === c).reduce((a, i) => a + i.per, 0)]);
+  $('#bResult').innerHTML = `
+    <div class="total"><span class="lab">每人大约</span><span class="big">${fmt(Math.round(total / 10) * 10)}<small>日元</small></span>
+      <span class="sub">约 ${(total / 10000).toFixed(1)} 万日元 · ${n} 个人合计约 ${fmt(Math.round(total * n / 100) * 100)} 日元</span></div>
+    <div class="stack" role="img" aria-label="${cats.map(c => c[1] + ' ' + fmt(c[2])).join('，')}">${cats.map(([c, , v]) => `<span class="k-${c}" style="flex-grow:${v}"></span>`).join('')}</div>
+    <div class="stack-key">${cats.map(([c, l, v]) => `<span><i class="k-${c}"></i>${l}<b>${fmt(v)}</b></span>`).join('')}</div>
+    <div class="lines">${items.map(i => `<div class="line"><span class="nm">${i.name}${i.est ? '<span class="est">估</span>' : ''}</span><span class="amt">${fmt(i.per)}</span>
+      ${i.car || i.ds ? `<span class="ds">${i.car ? `全车 ${fmt(i.car)}，${n} 人分摊${i.ds ? '。' + i.ds : ''}` : i.ds}</span>` : ''}</div>`).join('')}</div>`;
+  $('#bN').textContent = n;
+  $$('#bControls .seg').forEach(seg => $$('button', seg).forEach(b => b.setAttribute('aria-pressed', String(B[seg.dataset.key] === b.dataset.v))));
+  $('#bMinus').disabled = n <= 1; $('#bPlus').disabled = n >= 8;
+}
+function wireBudget() {
+  $('#bMinus').addEventListener('click', () => { B.people = Math.max(1, B.people - 1); renderBudget(); });
+  $('#bPlus').addEventListener('click', () => { B.people = Math.min(8, B.people + 1); renderBudget(); });
+  $$('#bControls .seg').forEach(seg => seg.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; B[seg.dataset.key] = b.dataset.v; renderBudget(); }));
+  $$('#bControls input[data-opt]').forEach(i => i.addEventListener('change', () => { B.opt[i.dataset.opt] = i.checked; renderBudget(); }));
+}
+
+/* ---------- 清单（只存本机） ---------- */
+function wireTodo() {
+  const KEY = 'tama-trip-todo-v1';
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  $$('#todo input').forEach(i => {
+    i.checked = !!saved[i.id];
+    i.addEventListener('change', () => { saved[i.id] = i.checked; try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} });
+  });
+}
+
+/* ---------- 滚动联动 ---------- */
+let io = null;
+function setupIO() {
+  if (io) io.disconnect();
+  const desk = DESK.matches, mh = desk ? 0 : mapCol.offsetHeight, vh = innerHeight;
+  const line = desk ? vh * 0.36 : mh + (vh - mh) * 0.3;
+  document.documentElement.style.setProperty('--sm', (desk ? 24 : mh + 10) + 'px');
+  io = new IntersectionObserver(entries => {
+    if (quiet) return;
+    const hit = entries.filter(e => e.isIntersecting).pop();
+    if (!hit) return;
+    const t = hit.target;
+    if (t.classList.contains('day-head')) {
+      const d = +t.dataset.dayHead;
+      if (activeDay !== d || activeId) { activeDay = d; activeId = null; syncUI(); if (follow) flyTo(viewForDay(d)); else render(); }
+    } else if (t.dataset.id !== activeId) select(t.dataset.id, 'follow');
+  }, { rootMargin: `-${Math.round(line)}px 0px -${Math.max(0, Math.round(vh - line - 2))}px 0px` });
+  $$('.row.stop, .day-head').forEach(e => io.observe(e));
+}
+
+/* ---------- 地图手势 ---------- */
+function wireMap() {
+  const ptrs = new Map(); let moved = 0;
+  const local = e => { const r = card.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  const manual = () => { if (follow) setFollow(false); };
+  svg.addEventListener('pointerdown', e => {
+    svg.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (ptrs.size === 1) moved = 0; cancelAnimationFrame(anim); svg.classList.add('grabbing');
+  });
+  svg.addEventListener('pointermove', e => {
+    if (!ptrs.has(e.pointerId)) return;
+    const prev = ptrs.get(e.pointerId), [W] = dims(), s = view.w / W;
+    if (ptrs.size === 1) {
+      const dx = e.clientX - prev.x, dy = e.clientY - prev.y; moved += Math.abs(dx) + Math.abs(dy);
+      view.cx -= dx * s; view.cy -= dy * s; if (moved > 6) manual();
+    } else {
+      const o = [...ptrs.entries()].find(([id]) => id !== e.pointerId)[1];
+      const d0 = Math.hypot(prev.x - o.x, prev.y - o.y), d1 = Math.hypot(e.clientX - o.x, e.clientY - o.y);
+      if (d0 > 0 && d1 > 0) { const r = card.getBoundingClientRect(); zoomAt(d0 / d1, (e.clientX + o.x) / 2 - r.left, (e.clientY + o.y) / 2 - r.top); }
+      moved += 100; manual();
+    }
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); render();
+  });
+  const end = e => {
+    if (!ptrs.has(e.pointerId)) return;
+    if (e.type === 'pointerup' && ptrs.size === 1 && moved < 7) {
+      const [mx, my] = local(e), [W, H] = dims(), k = W / view.w, vx = view.cx - view.w / 2, vy = view.cy - view.w * H / W / 2;
+      let best = null, bd = 22;
+      STOPS.forEach(st => { const d = Math.hypot((st.x - vx) * k - mx, (st.y - vy) * k - my); if (d < bd) { bd = d; best = st; } });
+      if (best) { select(best.id, false); quietScroll($(`.row.stop[data-id="${best.id}"] .card`)); }
+    }
+    ptrs.delete(e.pointerId); if (!ptrs.size) svg.classList.remove('grabbing');
+  };
+  svg.addEventListener('pointerup', end); svg.addEventListener('pointercancel', end);
+  svg.addEventListener('wheel', e => { e.preventDefault(); const [mx, my] = local(e); zoomAt(Math.exp(e.deltaY * 0.0016), mx, my); manual(); render(); }, { passive: false });
+  const center = f => { const [W, H] = dims(); cancelAnimationFrame(anim); zoomAt(f, W / 2, H / 2); manual(); render(); };
+  $('#zIn').addEventListener('click', () => center(0.62));
+  $('#zOut').addEventListener('click', () => center(1.6));
+  $('#zFit').addEventListener('click', () => { manual(); flyTo(viewForDay(activeDay)); });
+  followBtn.addEventListener('click', () => { setFollow(true); flyTo(activeId ? viewForStop(BY[activeId]) : viewForDay(activeDay)); render(); });
+  $$('.m-tabs button').forEach(b => b.addEventListener('click', () => showDay(+b.dataset.view)));
+  $('#list').addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+    const row = e.target.closest('.row.stop'); if (!row) return;
+    setFollow(true); select(row.dataset.id, 'force');
+  });
+  $('#list').addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('card')) { e.preventDefault(); setFollow(true); select(e.target.closest('.row').dataset.id, 'force'); }
+  });
+  new ResizeObserver(() => render()).observe(card);
+  let rt = 0; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(setupIO, 150); });
+  DESK.addEventListener?.('change', () => setTimeout(() => { setupIO(); flyTo(activeId ? viewForStop(BY[activeId]) : viewForDay(activeDay)); }, 60));
+}
+
+/* ---------- 我的位置：拿得到就画蓝点、算距离；拿不到就交给 Google 地图 ---------- */
+const ME = { watch: null, item: null, g: null, acc: null, x: 0, y: 0, fixed: false, closed: false };
+const UNIT_PER_M = 0.0317;   // 本图投影在北纬 35.8° 附近：1 米约 0.0317 个单位
+const toast = $('#mToast'), locBtn = $('#zLoc');
+const gmDir = q => 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=' + encodeURIComponent(q);
+function km(lon1, lat1, lon2, lat2) {
+  const r = Math.PI / 180, a = Math.sin((lat2 - lat1) * r / 2) ** 2 + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin((lon2 - lon1) * r / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(a));
+}
+const fmtKm = d => d < 1 ? Math.max(50, Math.round(d * 20) * 50) + ' m' : (d < 10 ? d.toFixed(1) : Math.round(d)) + ' km';
+function say(html) { toast.querySelector('.t').innerHTML = html; toast.hidden = false; render(); }
+function hush() { toast.hidden = true; render(); }
+function clearMe() {
+  if (ME.watch != null) navigator.geolocation.clearWatch(ME.watch);
+  ME.watch = null; ME.fixed = false;
+  locBtn.classList.remove('busy'); locBtn.setAttribute('aria-pressed', 'false');
+  if (ME.item) { ME.g.remove(); ME.acc.remove(); SCALED.splice(SCALED.indexOf(ME.item), 1); ME.item = ME.g = ME.acc = null; }
+  $$('.c-dist').forEach(e => { e.hidden = true; });
+}
+function locFail(msg) {
+  clearMe();
+  const s = BY[activeId] || STOPS[0];
+  ME.closed = false;
+  say(`${msg}<br><a href="${gmDir(s.ja)}" target="_blank" rel="noopener">用 Google 地图导航到「${s.short}」↗</a><br><span class="sub">Google 地图会用手机自己的定位。</span>`);
+}
+function onFix(p) {
+  const { longitude: lon, latitude: lat, accuracy } = p.coords, [x, y] = P(lon, lat), first = !ME.fixed;
+  ME.fixed = true; ME.x = x; ME.y = y;
+  locBtn.classList.remove('busy'); locBtn.setAttribute('aria-pressed', 'true');
+  if (!ME.item) {
+    ME.acc = el('circle', { class: 'me-acc' }, $('#gMarks'));
+    ME.g = el('g', { class: 'me' }, svg);
+    el('circle', { class: 'ring', r: 14 }, ME.g);
+    el('circle', { class: 'core', r: 7 }, ME.g);
+    ME.item = { g: ME.g, x, y }; SCALED.push(ME.item);
+  }
+  ME.item.x = x; ME.item.y = y;
+  ME.acc.setAttribute('cx', r1(x)); ME.acc.setAttribute('cy', r1(y)); ME.acc.setAttribute('r', r1(Math.min(accuracy || 0, 3000) * UNIT_PER_M));
+  let best = STOPS[0];
+  STOPS.forEach(s => { s.dist = km(lon, lat, s.lon, s.lat); if (s.dist < best.dist) best = s; });
+  $$('.row.stop').forEach(r => { const e = r.querySelector('.c-dist'); e.textContent = '距你 ' + fmtKm(BY[r.dataset.id].dist); e.hidden = false; });
+  const inside = x > -30 && x < 1030 && y > -30 && y < 585;
+  if (!ME.closed) {
+    if (inside) say(`离你最近：<b>第 ${best.day} 天 · ${best.n} ${best.short}</b>　直线 <span class="km">${fmtKm(best.dist)}</span><br><a href="${gmDir(best.ja)}" target="_blank" rel="noopener">导航过去 ↗</a>`);
+    else say(`你现在在这张图外面，离第 1 站「${STOPS[0].short}」直线约 <span class="km">${fmtKm(STOPS[0].dist)}</span>。<br><a href="${gmDir(STOPS[0].ja)}" target="_blank" rel="noopener">用 Google 地图导航过去 ↗</a><br><span class="sub">每站卡片右上角会显示离你多远。</span>`);
+  }
+  if (first) { setFollow(false); flyTo(inside ? viewForStop({ x, y }) : viewForDay(0)); } else render();
+}
+function startLoc() {
+  const pol = document.permissionsPolicy || document.featurePolicy;
+  if (!navigator.geolocation || (pol && pol.allowsFeature && !pol.allowsFeature('geolocation')))
+    return locFail('这个页面拿不到定位：分享出来的网页不允许直接读手机位置。');
+  ME.closed = false; locBtn.classList.add('busy');
+  say('正在找你的位置…手机问要不要允许时，点允许。');
+  ME.watch = navigator.geolocation.watchPosition(onFix, e => {
+    if (ME.fixed && e.code !== 1) return;   // 已经定到过：偶尔超时不打扰
+    locFail(e.code === 1 ? '没拿到定位权限：可能点了「不允许」，或者分享出来的网页不让读位置。' : '暂时定位不到，换个信号好的地方再试。');
+  }, { enableHighAccuracy: true, maximumAge: 20000, timeout: 20000 });
+}
+function wireLocate() {
+  locBtn.addEventListener('click', () => { if (ME.watch != null) { clearMe(); hush(); } else startLoc(); });
+  toast.querySelector('.x').addEventListener('click', () => { ME.closed = true; hush(); });
+}
+
+/* ---------- 启动 ---------- */
+renderGantt();
+renderList();
+renderPhotos();
+renderBudget();
+wireBudget();
+wireTodo();
+buildMap();
+Object.assign(view, viewForDay(0));
+syncUI();
+render();
+setupIO();
+wireMap();
+wireLocate();
+})();
+</script>
+
+</body>
+</html>
