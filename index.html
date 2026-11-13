@@ -509,6 +509,7 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
       <li>每站介绍：按维基百科（中文、日文）和青梅市观光协会的内容概括，每张卡片末尾有原文链接。</li>
       <li>开放时间（11 月）：<a href="https://www.mitaketozan.co.jp/timetable.html" target="_blank" rel="noopener">御岳登山铁道</a> · <a href="https://www.sawanoi-sake.com/service/kengaku/" target="_blank" rel="noopener">澤乃井</a> · <a href="https://event.jreast.co.jp/pages/articles-ome-railway-park" target="_blank" rel="noopener">青梅铁道公园</a> · <a href="http://www.nippara.com/nippara/syounyuudou/syounyuudou.html" target="_blank" rel="noopener">日原钟乳洞</a> · <a href="https://www.kensetsu.metro.tokyo.lg.jp/jimusho/nishiken/okutama-hp" target="_blank" rel="noopener">周游道路（东京都）</a> · <a href="https://www.hinohara-mori.jp/" target="_blank" rel="noopener">都民之森</a> · <a href="http://www.seotonoyu.jp/page2" target="_blank" rel="noopener">濑音之汤</a> · <a href="https://hinohara-kankou.jp/hossawa_faq/" target="_blank" rel="noopener">払沢の滝</a> · <a href="https://www.kabutoya.net/JPN/contents5.html" target="_blank" rel="noopener">兜家旅馆</a></li>
       <li>停车场：位置来自 <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a>，车位和收费按运营方、<a href="https://www.omekanko.gr.jp/association/parking/" target="_blank" rel="noopener">青梅市观光协会</a>、<a href="https://hinohara-kankou.jp/" target="_blank" rel="noopener">桧原村观光协会</a>和各设施官网。</li>
+      <li>附近小发现：按青梅市、奥多摩町、桧原村、秋留野市的观光协会和各店、各设施官网整理，位置来自 OpenStreetMap；营业时间按 11 月查，出发前再看一眼官网。</li>
     </ul>
     <details class="credits"><summary>照片来源（Wikimedia Commons，按署名许可使用）</summary><ul class="sources" id="photoCredits"></ul></details>
     <p class="foot">资料查于 2026 年 11 月 13–14 日。价格和开放时间可能会变，出发前以官方为准。地图是示意图，位置大致准确，导航请点每站的 Google 地图按钮。</p>
@@ -600,7 +601,7 @@ const STOPS = [
     chips: [['荞麦面', '约 1,500/人（估）']],
     body: '桧原街道沿路有几家荞麦面和山菜定食，周末中午要排队。',
     tips: ['想吃地道的山菜乡土料理，可以订数马的兜家旅馆午饭：10:00–15:00，完全预约制，4,000 起。周四定休，红叶季是否休息说法不一，订的时候问清楚。电话 042-598-6136。'] },
-  { id: 'hossawa', day: 2, t: '13:15', stay: '45–60 分钟', zh: '払沢の滝', short: '払沢の滝', ja: '払沢の滝', lon: 139.1400, lat: 35.7305,
+  { id: 'hossawa', day: 2, t: '13:15', stay: '45–60 分钟', zh: '払沢の滝', short: '払沢の滝', ja: '払沢の滝', lon: 139.1390, lat: 35.7275,
     leg: { i: 'car', text: '沿桧原街道往东约 20 分钟。' },
     chips: [['费用', '免费'], ['停车', '约 28 个位，晚上不关'], ['入口豆腐店', 'ちとせ屋 9:30–16:30，周二休']],
     body: '停好车再走约 15 分钟上坡小路。',
@@ -632,7 +633,7 @@ const R411 = [[139.3199,35.7965],[139.300,35.7930],[139.280,35.7915],[139.2586,3
 const R139 = [[139.0005,35.7906],[139.0008,35.7830],[138.9995,35.7749]];
 const SHUYU = [[138.9995,35.7749],[139.008,35.7738],[139.020,35.7722],[139.0336,35.7667],[139.0315,35.7580],[139.0235,35.7500],[139.0300,35.7410],[139.0310,35.7375],[139.0455,35.7322],[139.0571,35.7270]];
 const HINO = [[139.0571,35.7270],[139.080,35.7238],[139.110,35.7238],[139.135,35.7260],[139.1489,35.7270],[139.165,35.7288],[139.1881,35.7278],[139.205,35.7300],[139.2282,35.7325],[139.250,35.7295],[139.270,35.7230],[139.2843,35.7203]];
-const HOSSAWA_RD = [[139.1430,35.7266],[139.1400,35.7305]];
+const HOSSAWA_RD = [[139.1430,35.7266],[139.1413,35.7301]];   // 开到停车场，瀑布要再走约 15 分钟
 const MITAKE_RD = [[139.1837,35.8018],[139.178,35.7990],[139.170,35.7975],[139.1613,35.7960]];
 const CABLE = [[139.1613,35.7960],[139.1536,35.7897]];
 const SHRINE_WALK = [[139.1536,35.7897],[139.1518,35.7866],[139.1503,35.7831]];
@@ -788,7 +789,7 @@ function buildMap() {
 /* ---------- 视角 ---------- */
 const view = { cx: 500, cy: 280, w: 1000 };
 const PAD = { t: 56, r: 58, b: 46, l: 18 };
-const clampW = w => Math.min(1500, Math.max(110, w));
+const clampW = w => Math.min(1500, Math.max(40, w));   // 最多放大到约 1.3 公里宽，挤在一起的小发现能分开
 const dims = () => { const r = card.getBoundingClientRect(); return [r.width || 1000, r.height || 600]; };
 function viewForBox(x0, y0, x1, y1) {
   const [W, H] = dims();
@@ -985,14 +986,45 @@ function showPark(p) {
 
 /* ---------- 附近小发现：放大到单站时在地图上显示 ◆ 和名字，点一下看介绍 ---------- */
 // n 名字，ja 搜索用日文名，kind 类别，near 附近的主景点，walk 从主景点走几分钟（null＝开车顺路），d 介绍，hrs 营业时间
-const SPOTS = [];
+const SPOTS = [
+  { n: "东马场御师住宅", ja: "東馬場（馬場家御師住宅）", kind: "建筑", near: "jinja", lon: 139.15105, lat: 35.786, walk: 9, d: "建于1866年的东京都指定有形文化财，这栋古老的御师住宅至今仍经营宿坊，适合驻足欣赏建筑外观。", hrs: "内部参观要预约" },  // 0
+  { n: "驹鸟卖店", ja: "駒鳥売店", kind: "小店", near: "jinja", lon: 139.15184, lat: 35.78389, walk: 8, d: "御岳山参道上的餐饮与土产小店，供应咖啡和餐食，坐在店内座位便可远眺连绵山景。", hrs: "9:00–17:00，不定休" },  // 1
+  { n: "红叶屋乌冬", ja: "紅葉屋", kind: "小店", near: "jinja", lon: 139.15166, lat: 35.78383, walk: 7, d: "御岳山上的自制乌冬面店，招牌是风味浓郁的核桃蘸汁乌冬，店内也提供加入抹茶的特色乌冬。", hrs: "10:00–17:00" },  // 2
+  { n: "玉堂美术馆", ja: "玉堂美術館", kind: "建筑", near: "keikoku", lon: 139.18411, lat: 35.80016, walk: 3, d: "馆内收藏日本画家川合玉堂的作品与遗物并重现其画室，馆前银杏是御岳溪谷红叶季的标志景致。", hrs: "11 月 10:00–17:00（16:30 停止入馆），周一休（逢节假日改周二）" },  // 4
+  { n: "玉川屋荞麦", ja: "元祖手打ちそば 玉川屋 総本店", kind: "小店", near: "keikoku", lon: 139.18438, lat: 35.80165, walk: 2, d: "1915年创办的手打荞麦面老店，沿用明治民居的茅草屋顶建筑，太宰治与文友曾来此吃荞麦面。", hrs: "11:00–18:00，周一休（逢节假日改周二）" },  // 5
+  { n: "御岳小桥", ja: "御嶽小橋", kind: "拍照点", near: "keikoku", lon: 139.18519, lat: 35.80098, walk: 3, d: "连接御岳园地与玉堂美术馆两侧的步行桥，驻足桥上可看下方溪谷河景。" },  // 6
+  { n: "寒山寺", ja: "寒山寺", kind: "小景点", near: "sawanoi", lon: 139.19382, lat: 35.80345, walk: 1, d: "跨过枫桥后位于对岸岸边的小巧佛堂，因中国苏州的寒山寺而得名，清幽静立于溪谷水畔。" },  // 8
+  { n: "豆乐豆腐料理", ja: "豆らく", kind: "小店", near: "sawanoi", lon: 139.19439, lat: 35.80423, walk: 1, d: "位于泽井的特色餐饮小店，店内供应细腻的“ままごと屋”豆腐料理，还可搭配品尝当地的澤乃井酒。", hrs: "11:00–16:30，周一休（逢节假日顺延）" },  // 9
+  { n: "福岛屋酒铺", ja: "福島屋酒店", kind: "小店", near: "sawanoi", lon: 139.19433, lat: 35.80452, walk: 1, d: "售卖当地酒类的酒铺，可以买到小泽酒造的澤乃井清酒、青梅葡萄酒“ボッパルトの雫”以及当地啤酒。", hrs: "8:30–19:00，全年无休" },  // 10
+  { n: "旧稻叶家住宅", ja: "旧稲葉家住宅", kind: "建筑", near: "ome", lon: 139.25089, lat: 35.79035, walk: 15, d: "江户时期青梅宿町年寄稻叶家的旧宅，家族曾经营木材和青梅缟批发，保留着建于江户后期的店藏式主屋。", hrs: "11 月 10:00–16:00，周一休（逢节假日顺延）" },  // 11
+  { n: "延命寺", ja: "延命寺", kind: "小景点", near: "ome", lon: 139.26104, lat: 35.78834, walk: 7, d: "1369年创建的古寺，是青梅七福神巡礼中的大黑天寺院，境内供奉着与安产育儿信仰相关的吞龙上人。", hrs: "8:00–17:00" },  // 12
+  { n: "旧青梅街道", ja: "青梅宿・旧青梅街道（本町付近）", kind: "街道", near: "ome", lon: 139.25945, lat: 35.78897, walk: 8, d: "青梅站周边原宿场町的商店街，沿旧青梅街道仍有一百六十多家店铺经营，承载着老街日常风貌。", hrs: "11/14–15 有青梅宿艺术节" },  // 13
+  { n: "青梅町之驿", ja: "まちの駅青梅", kind: "小店", near: "ome", lon: 139.25856, lat: 35.79027, walk: 7, d: "毗邻青梅站的土产小店，汇集了青梅新鲜蔬菜、面包、澤乃井清酒、Hotman毛巾以及特色山葵制品。", hrs: "10:00–20:00" },  // 14
+  { n: "玉川水神社", ja: "玉川水神社（水神様）", kind: "小景点", near: "hatonosu", lon: 139.12888, lat: 35.81373, walk: 1, d: "与鸠之巢地名由来渊源颇深的水神社，相传两只鸽子在神社树林中筑巢的故事成为了当地名称的来源。" },  // 15
+  { n: "Poppo咖啡", ja: "カフェ＆ギャラリー ぽっぽ", kind: "小店", near: "hatonosu", lon: 139.12825, lat: 35.81345, walk: 2, d: "可俯瞰鸠之巢溪谷景致的咖啡画廊，店内提供有机及公平贸易咖啡、醇香红茶与自制蛋糕。", hrs: "10:00–17:00，周三休" },  // 16
+  { n: "鸠美手打荞麦", ja: "鳩美", kind: "小店", near: "hatonosu", lon: 139.12754, lat: 35.81496, walk: 4, d: "坐落于棚泽的手打荞麦面店，面条擀制得较宽较厚，山药荞麦面与猪排饭也是店里的人气餐点。", hrs: "周三休，营业时间没查到" },  // 17
+  { n: "冰川小桥", ja: "氷川小橋", kind: "拍照点", near: "stay", lon: 139.09673, lat: 35.80728, walk: 4, d: "冰川溪谷步道上跨越日原川的吊桥，站在桥面上可以清晰望见多摩川与日原川的两水汇流之处。" },  // 18
+  { n: "登计桥", ja: "登計橋", kind: "拍照点", near: "stay", lon: 139.09643, lat: 35.80636, walk: 5, d: "位于冰川小桥更内侧的溪谷步道桥，是奥多摩观光协会列入的溪谷观景处，适合在桥上静赏山涧风光。" },  // 19
+  { n: "奥多摩游客中心", ja: "奥多摩ビジターセンター", kind: "小景点", near: "stay", lon: 139.09769, lat: 35.80853, walk: 2, d: "介绍奥多摩自然、历史文化与徒步信息的设施。", hrs: "9:00–16:30，周一休（逢节假日改周二）" },  // 20
+  { n: "奥多摩古道", ja: "奥多摩むかしみち（氷川側入口付近）", kind: "街道", near: "stay", lon: 139.09449, lat: 35.80622, walk: 6, d: "沿旧青梅街道延伸的幽静古道，沿线依然保留着古朴的老民居屋顶与传统格子门，充满昔日风情。" },  // 21
+  { n: "一石山神社", ja: "一石山神社", kind: "小景点", near: "nippara", lon: 139.04018, lat: 35.85224, walk: 1, d: "坐落于日原钟乳洞附近的山间神社，境内是当地奉纳传统日原狮子舞的场所，透着古朴的乡土气息。" },  // 22
+  { n: "日原森林馆", ja: "日原森林館", kind: "小景点", near: "nippara", lon: 139.04286, lat: 35.84154, walk: null, d: "专门介绍当地巨树与森林生态的展览设施，馆内展示了丰富的森林资料。", hrs: "11 月 10:00–17:00，周一休（逢节假日改周二）" },  // 23
+  { n: "水与绿交流馆", ja: "奥多摩水と緑のふれあい館", kind: "建筑", near: "dam", lon: 139.04827, lat: 35.79277, walk: 6, d: "紧邻小河内水坝的展示馆，介绍建坝后沉入湖底的旧小河内村历史与东京都供水事业，设展望餐厅和土产店。", hrs: "9:30–17:00，周三休（逢节假日改周四）" },  // 24
+  { n: "都民之森森林馆", ja: "檜原都民の森 森林館", kind: "建筑", near: "tomin", lon: 139.02887, lat: 35.73951, walk: 4, d: "由研修栋与展示栋组成，用影像、照片和动物标本介绍森林生态，中庭还设有杉木与桧木锯圆木体验。", hrs: "11/15 前 9:30–16:30，11/16 起 9:30–16:00；11 月周一也开" },  // 25
+  { n: "木材工艺中心", ja: "檜原都民の森 木材工芸センター", kind: "小景点", near: "tomin", lon: 139.02876, lat: 35.74032, walk: 5, d: "设有木工教室及作品展示区的体验设施，自由教室接受当日参加，可亲手制作木质钥匙圈或手形木片。", hrs: "11/15 前 9:30–16:30，11/16 起 9:30–16:00；11 月周一也开；木工体验另有受理时间" },  // 26
+  { n: "梦之瀑", ja: "夢の滝", kind: "拍照点", near: "kazuma", lon: 139.0397, lat: 35.73264, walk: null, d: "落差约19米高的秀丽滑瀑，因周游道路建设而能直接从道路旁眺望水流顺岩壁滑落的景致。" },  // 27
+  { n: "千岁屋豆腐", ja: "檜原とうふ ちとせ屋", kind: "小店", near: "hossawa", lon: 139.14358, lat: 35.7298, walk: 5, d: "用国产大豆、赤穗本卤水与桧原村水制作豆腐的小店，招牌是将豆渣与豆乳揉制而成的豆渣甜甜圈。", hrs: "9:30–16:30（甜甜圈约 10:30 开卖），周二和每月第 1/3/5 个周一休" },  // 29
+  { n: "森之细语木工房", ja: "木工房 森のささやき（旧檜原郵便局）", kind: "建筑", near: "hossawa", lon: 139.14196, lat: 35.72812, walk: 4, d: "将旧桧原邮局建筑迁至払泽瀑布步道旁改建的木工制品商店，散发木香的桧木明信片是店里的人气商品。", hrs: "10:00–日落，平日不定休" },  // 30
+  { n: "山彦画廊咖啡", ja: "ギャラリー喫茶やまびこ", kind: "小店", near: "hossawa", lon: 139.1422, lat: 35.72958, walk: 3, d: "位于払泽瀑布步道旁的画廊咖啡店，不仅使用陶艺家制作的器皿盛装咖啡与轻食，店内也展售精致陶器。", hrs: "10:00–约 16:00，平日不定休" },  // 31
+  { n: "十里木摩艾像", ja: "十里木ランド（入口のモアイ像）", kind: "拍照点", near: "seoto", lon: 139.18987, lat: 35.72813, walk: 3, d: "秋川河畔休闲设施十里木乐园入口处的标志性摩艾石像，造型独特醒目，经过时可在附近驻足观看。", hrs: "乐园 11/23 后冬季休园，入口的摩艾像照样能看" },  // 32
+];
 const SPOT_EL = [], G_SPOT = $('#gSpot');
 const spotsOf = id => SPOTS.filter(p => p.near === id);
 function buildSpots() {
   if (!SPOTS.length) { $('#spLeg').remove(); $('#spLegT').remove(); return; }
   SPOTS.forEach(p => {
     [p.x, p.y] = P(p.lon, p.lat); p.dx = p.x; p.dy = p.y;
-    const g = el('g', { class: 'spot' }, G_SPOT);
+    const g = el('g', { class: 'spot', 'data-near': p.near }, G_SPOT);
     el('path', { d: 'M0 -6L6 0L0 6L-6 0Z' }, g);
     const t = el('text', { class: 'lbl', x: 9, y: 4 }, g); t.textContent = p.n;
     SCALED.push({ g, x: p.x, y: p.y });
@@ -1294,7 +1326,10 @@ function wireMap() {
   $('#list').addEventListener('click', e => {
     if (e.target.closest('a')) return;
     const chip = e.target.closest('.spot-chip');
-    if (chip) { const p = SPOTS[+chip.dataset.spot]; setFollow(false); flyTo(viewForStop(p)); showSpot(p); return; }
+    if (chip) {   // 飞到这个点，点放在偏下的位置，免得被上方的介绍框盖住
+      const p = SPOTS[+chip.dataset.spot], v = viewForStop(p), [W, H] = dims();
+      v.cy -= v.w * H / W * 0.2; setFollow(false); flyTo(v); showSpot(p); return;
+    }
     const row = e.target.closest('.row.stop'); if (!row) return;
     setFollow(true); select(row.dataset.id, 'force');
   });
