@@ -23,7 +23,7 @@
   --map-bg:#E5EBE1; --contour:#9C8462; --river:#3A7DAE; --lake:#C4DAE6; --road:#A3ACA5; --hwy:#727E77;
   --d1:#B3302A; --d1-line:#B3302A; --d1-ink:#A02A25; --d1-soft:#F2DCD7;
   --d2:#946508; --d2-line:#C99212; --d2-ink:#835800; --d2-soft:#F2E6C8;
-  --focus:#2F6FA3; --me:#2463C9;
+  --focus:#2F6FA3; --me:#2463C9; --spot:#8B3FA6;
   --font-display:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
   --font-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
   --font-data:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -34,14 +34,14 @@
   --map-bg:#111916; --contour:#7F7059; --river:#5BA4D6; --lake:#16303F; --road:#46524C; --hwy:#6C7A73;
   --d1:#EE6A5B; --d1-line:#EE6A5B; --d1-ink:#F28678; --d1-soft:#3A1F1C;
   --d2:#E2AA3A; --d2-line:#E2AA3A; --d2-ink:#EDBB55; --d2-soft:#33291A;
-  --focus:#7DB6E3; --me:#6AA8FF; color-scheme:dark}}
+  --focus:#7DB6E3; --me:#6AA8FF; --spot:#C99BE6; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0E1412; --sheet:#151D1A; --ink:#E2E9E4; --ink-2:#99A9A0; --rule:#28342F;
   --chip:#1F2925; --track:#222D29; --hatch:#6B7A73; --shadow:rgba(0,0,0,.6);
   --map-bg:#111916; --contour:#7F7059; --river:#5BA4D6; --lake:#16303F; --road:#46524C; --hwy:#6C7A73;
   --d1:#EE6A5B; --d1-line:#EE6A5B; --d1-ink:#F28678; --d1-soft:#3A1F1C;
   --d2:#E2AA3A; --d2-line:#E2AA3A; --d2-ink:#EDBB55; --d2-soft:#33291A;
-  --focus:#7DB6E3; --me:#6AA8FF; color-scheme:dark}
+  --focus:#7DB6E3; --me:#6AA8FF; --spot:#C99BE6; color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -148,6 +148,26 @@ h1{font-family:var(--font-display);font-weight:900;font-size:clamp(34px,8.6vw,58
 .m-toast .sub{color:var(--ink-2);font-size:11.5px}
 .m-toast a{display:inline-block;margin-top:3px;color:var(--me);font-weight:500;text-decoration:none}
 .m-toast .x{position:absolute;top:3px;right:3px;width:26px;height:26px;border:0;background:none;color:var(--ink-2);font-size:17px;line-height:1;cursor:pointer;border-radius:6px}
+.park{cursor:pointer}
+.park rect{fill:var(--ink);stroke:var(--map-bg);stroke-width:1.6}
+.park text{fill:var(--map-bg);font:700 9.5px var(--font-data);text-anchor:middle}
+#gPark{transition:opacity .3s}
+#gPark.off{opacity:0;pointer-events:none}
+.m-legend .pk{display:inline-grid;place-items:center;width:12px;height:12px;border-radius:3px;background:var(--ink);color:var(--map-bg);font:700 8.5px/1 var(--font-data)}
+.navs{display:flex;flex-wrap:wrap;gap:6px}
+.spot{cursor:pointer}
+.spot path{fill:var(--spot);stroke:var(--map-bg);stroke-width:1.6}
+.spot .lbl{font:600 11px var(--font-body);fill:var(--spot)}
+#gSpot{transition:opacity .3s}
+#gSpot.off{opacity:0;pointer-events:none}
+.m-legend .sp{display:inline-block;width:8px;height:8px;background:var(--spot);transform:rotate(45deg);margin:0 4px 0 8px;vertical-align:.05em}
+.m-legend #spLegT{font-weight:inherit}
+.spots{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 12px}
+.spots-h{font:600 12px/1 var(--font-data);letter-spacing:.04em;color:var(--ink-2);margin-right:2px}
+.spot-chip{display:inline-flex;align-items:center;gap:6px;font:500 13px/1.2 var(--font-body);padding:6px 10px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);cursor:pointer}
+.spot-chip i{width:7px;height:7px;flex:none;background:var(--spot);transform:rotate(45deg)}
+.spot-chip small{font-size:11px;color:var(--ink-2)}
+.spot-chip:hover{border-color:var(--spot)}
 .me{pointer-events:none}
 .me .ring{fill:var(--me);opacity:.3;transform-box:fill-box;transform-origin:center;animation:halo 2.2s ease-out infinite}
 .me .core{fill:var(--me);stroke:#fff;stroke-width:2.6}
@@ -360,7 +380,7 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
     <div class="map-col" id="mapCol">
       <div class="map-card" id="mapCard">
         <svg id="map" role="img" aria-label="多摩地区示意地图，标出两天的路线和每一站">
-          <g id="gTerrain"></g><g id="gWater"></g><g id="gRoads"></g><g id="gRoutes"></g><g id="gMarks"></g><g id="gPins"></g>
+          <g id="gTerrain"></g><g id="gWater"></g><g id="gRoads"></g><g id="gRoutes"></g><g id="gMarks"></g><g id="gPark" class="off"></g><g id="gSpot" class="off"></g><g id="gPins"></g>
         </svg>
         <div class="m-tabs" role="group" aria-label="地图看哪一天">
           <button type="button" data-view="0" aria-pressed="true">全程</button>
@@ -375,7 +395,7 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
         </div>
         <div class="m-toast" id="mToast" role="status" hidden><div class="t"></div><button type="button" class="x" aria-label="关掉提示">×</button></div>
         <div class="m-foot">
-          <div class="m-legend" id="mLegend"><span><i class="sw d1"></i>第 1 天</span><span><i class="sw d2"></i>第 2 天</span><span><i class="ring"></i>可选</span><span class="m-note">示意图，导航用 Google 地图</span></div>
+          <div class="m-legend" id="mLegend"><span><i class="sw d1"></i>第 1 天</span><span><i class="sw d2"></i>第 2 天</span><span><i class="ring"></i>可选</span><span><i class="pk">P</i>停车<i class="sp" id="spLeg"></i><b id="spLegT">小发现</b>（放大后）</span><span class="m-note">示意图，导航用 Google 地图</span></div>
           <button type="button" class="m-follow" id="follow" hidden>地图跟着行程走</button>
         </div>
       </div>
@@ -488,6 +508,7 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
       <li><a href="https://kaibutsu-blog.com/showakinen-autumn-nightwalk-guide/" target="_blank" rel="noopener">昭和纪念公园秋季活动</a></li>
       <li>每站介绍：按维基百科（中文、日文）和青梅市观光协会的内容概括，每张卡片末尾有原文链接。</li>
       <li>开放时间（11 月）：<a href="https://www.mitaketozan.co.jp/timetable.html" target="_blank" rel="noopener">御岳登山铁道</a> · <a href="https://www.sawanoi-sake.com/service/kengaku/" target="_blank" rel="noopener">澤乃井</a> · <a href="https://event.jreast.co.jp/pages/articles-ome-railway-park" target="_blank" rel="noopener">青梅铁道公园</a> · <a href="http://www.nippara.com/nippara/syounyuudou/syounyuudou.html" target="_blank" rel="noopener">日原钟乳洞</a> · <a href="https://www.kensetsu.metro.tokyo.lg.jp/jimusho/nishiken/okutama-hp" target="_blank" rel="noopener">周游道路（东京都）</a> · <a href="https://www.hinohara-mori.jp/" target="_blank" rel="noopener">都民之森</a> · <a href="http://www.seotonoyu.jp/page2" target="_blank" rel="noopener">濑音之汤</a> · <a href="https://hinohara-kankou.jp/hossawa_faq/" target="_blank" rel="noopener">払沢の滝</a> · <a href="https://www.kabutoya.net/JPN/contents5.html" target="_blank" rel="noopener">兜家旅馆</a></li>
+      <li>停车场：位置来自 <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a>，车位和收费按运营方、<a href="https://www.omekanko.gr.jp/association/parking/" target="_blank" rel="noopener">青梅市观光协会</a>、<a href="https://hinohara-kankou.jp/" target="_blank" rel="noopener">桧原村观光协会</a>和各设施官网。</li>
     </ul>
     <details class="credits"><summary>照片来源（Wikimedia Commons，按署名许可使用）</summary><ul class="sources" id="photoCredits"></ul></details>
     <p class="foot">资料查于 2026 年 11 月 13–14 日。价格和开放时间可能会变，出发前以官方为准。地图是示意图，位置大致准确，导航请点每站的 Google 地图按钮。</p>
@@ -569,7 +590,7 @@ const STOPS = [
     chips: [['道路', '免费'], ['夜间封路', '10–3 月 18:00 到第二天 9:00']],
     body: '海拔一千米以上的叶子，到 11 月中旬多半已经过了最好的时候。',
     tips: ['下大雨、结冰会封路，出发前查一下。'] },
-  { id: 'tomin', day: 2, t: '11:20', stay: '20–40 分钟', opt: true, zh: '桧原都民之森', short: '都民之森', ja: '檜原都民の森', lon: 139.0455, lat: 35.7322,
+  { id: 'tomin', day: 2, t: '11:20', stay: '20–40 分钟', opt: true, zh: '桧原都民之森', short: '都民之森', ja: '檜原都民の森', lon: 139.0310, lat: 35.7375,
     leg: { i: 'car', text: '翻过风张峠，开车约 15 分钟。' },
     chips: [['停车', '11/16 起 8:00–17:00'], ['11 月', '红叶季不休息']],
     body: '顺路下车走一小段木道就好。',
@@ -609,7 +630,7 @@ const LAKE = [[139.0513,35.7899],[139.046,35.7938],[139.036,35.7958],[139.026,35
 const LAKE_C = [[139.0513,35.7899],[139.03,35.7922],[139.008,35.7905],[138.98,35.787],[138.992,35.780]];
 const R411 = [[139.3199,35.7965],[139.300,35.7930],[139.280,35.7915],[139.2586,35.7905],[139.2369,35.7880],[139.222,35.7990],[139.2077,35.8078],[139.1938,35.8062],[139.1837,35.8018],[139.172,35.8085],[139.1625,35.8132],[139.1513,35.8160],[139.140,35.8165],[139.1287,35.8152],[139.1148,35.8122],[139.0966,35.8100],[139.085,35.8080],[139.070,35.8022],[139.060,35.7962],[139.0513,35.7912],[139.046,35.7955],[139.036,35.7976],[139.026,35.7962],[139.016,35.7951],[139.008,35.7941],[139.0005,35.7906],[138.975,35.7902]];
 const R139 = [[139.0005,35.7906],[139.0008,35.7830],[138.9995,35.7749]];
-const SHUYU = [[138.9995,35.7749],[139.008,35.7738],[139.020,35.7722],[139.0336,35.7667],[139.0315,35.7580],[139.0235,35.7500],[139.0300,35.7410],[139.0455,35.7322],[139.0571,35.7270]];
+const SHUYU = [[138.9995,35.7749],[139.008,35.7738],[139.020,35.7722],[139.0336,35.7667],[139.0315,35.7580],[139.0235,35.7500],[139.0300,35.7410],[139.0310,35.7375],[139.0455,35.7322],[139.0571,35.7270]];
 const HINO = [[139.0571,35.7270],[139.080,35.7238],[139.110,35.7238],[139.135,35.7260],[139.1489,35.7270],[139.165,35.7288],[139.1881,35.7278],[139.205,35.7300],[139.2282,35.7325],[139.250,35.7295],[139.270,35.7230],[139.2843,35.7203]];
 const HOSSAWA_RD = [[139.1430,35.7266],[139.1400,35.7305]];
 const MITAKE_RD = [[139.1837,35.8018],[139.178,35.7990],[139.170,35.7975],[139.1613,35.7960]];
@@ -816,6 +837,12 @@ function render() {
   view.cx = Math.min(1150, Math.max(-150, view.cx)); view.cy = Math.min(680, Math.max(-120, view.cy));
   const w = view.w, h = w * H / W, vx = view.cx - w / 2, vy = view.cy - h / 2, k = W / w, s = 1 / k;
   svg.setAttribute('viewBox', `${r1(vx)} ${r1(vy)} ${r1(w)} ${r1(h)}`);
+  const near = {};   // 停车场离景点钉不到 20 像素会被盖住：改贴在钉旁当角标
+  PARK_EL.forEach(p => {
+    const st = BY[p.stop]; let x = p.x, y = p.y;
+    if (Math.hypot(x - st.x, y - st.y) * k < 20) { const n = near[p.stop] = (near[p.stop] || 0) + 1, [ox, oy] = PK_OFF[Math.min(n, PK_OFF.length) - 1]; x = st.x + ox * s; y = st.y + oy * s; }
+    p.it.x = p.dx = x; p.it.y = p.dy = y;
+  });
   for (const it of SCALED) it.g.setAttribute('transform', `translate(${r1(it.x)} ${r1(it.y)}) scale(${s.toFixed(4)})`);
   const cr = card.getBoundingClientRect();
   const boxes = OVERLAYS.filter(o => o && !o.hidden).map(o => { const r = o.getBoundingClientRect(); return { x: r.left - cr.left - 4, y: r.top - cr.top - 4, w: r.width + 8, h: r.height + 8 }; });
@@ -823,6 +850,10 @@ function render() {
   const scr = (x, y) => [(x - vx) * k, (y - vy) * k];
   STOPS.forEach(st => { const [sx, sy] = scr(st.x, st.y); boxes.push({ x: sx - 11, y: sy - 11, w: 22, h: 22 }); });
   if (ME.item) { const [sx, sy] = scr(ME.x, ME.y); boxes.push({ x: sx - 10, y: sy - 10, w: 20, h: 20 }); }
+  const pkOn = w <= PARK_W; G_PARK.classList.toggle('off', !pkOn);
+  if (pkOn) PARK_EL.forEach(p => { const [sx, sy] = scr(p.dx, p.dy); boxes.push({ x: sx - 8, y: sy - 8, w: 16, h: 16 }); });
+  G_SPOT.classList.toggle('off', !pkOn);
+  if (pkOn) SPOT_EL.forEach(p => { const [sx, sy] = scr(p.x, p.y); boxes.push({ x: sx - 7, y: sy - 7, w: 14, h: 14 }); });
   const prio = l => {
     if (l.kind !== 'pin') return l.prio;
     const st = l.stop;
@@ -832,6 +863,7 @@ function render() {
   };
   const order = LABELS.slice().sort((a, b) => prio(a) - prio(b));
   for (const l of order) {
+    if (l.spot && !pkOn) { l.t.style.display = 'none'; continue; }
     const [sx, sy] = scr(l.x, l.y), lw = l.w + 4;
     if (l.kind === 'pin' || l.kind === 'peak') {
       const off = l.kind === 'pin' ? 15 : 9, hh = l.h;
@@ -907,6 +939,76 @@ function renderPhotos() {
   const name = id => id === 'hero' ? '封面' : BY[id].short;
   list.innerHTML = Object.entries(PHOTOS).map(([id, p]) => `<li>${name(id)}：<a href="${p.u}" target="_blank" rel="noopener">${p.a}</a>，<a href="${p.lu}" target="_blank" rel="noopener">${p.l}</a></li>`).join('');
 }
+
+/* ---------- 停车场：放大到单站时在地图上显示 P，点一下看信息和导航 ---------- */
+// n 名字，walk 走到景点的分钟，cap 车位，fee 收费，hrs 开放时间，tip 补充；坐标来自 OSM，信息按运营方和观光协会页面（2026-11 核对）
+const PARK = {
+  takimoto: [{ n: '滝本駅駐車場', lon: 139.16163, lat: 35.79626, walk: 1, cap: 136, fee: '平日 400/时，封顶 1,500；周末 450/时，封顶 2,000', hrs: '7:10–19:00' }],
+  keikoku: [
+    { n: '御岳苑地駐車場', lon: 139.17748, lat: 35.79910, walk: 7, cap: 53, fee: '收费，30 分钟内免费' },
+    { n: 'タイムズ青梅御岳', lon: 139.18539, lat: 35.80027, walk: 4, cap: 20, fee: '300/时，10/31–11/29 不封顶', hrs: '24 小时' }],
+  sawanoi: [{ n: '寒山寺駐車場', lon: 139.19488, lat: 35.80275, cap: 48, fee: '免费', tip: '在多摩川对岸，过楓橋就到澤乃井园' }],
+  ome: [
+    { n: '永山公園総合運動場駐車場', lon: 139.26300, lat: 35.79215, walk: 2, cap: 20, fee: '免费', tip: '铁道公园没有自己的停车场，这里最近' },
+    { n: '三井のリパーク 勝沼1丁目', lon: 139.26917, lat: 35.79068, walk: 8, cap: 10, fee: '220/40 分钟，24 小时封顶 500', hrs: '24 小时' }],
+  hatonosu: [{ n: 'タイムズ奥多摩鳩ノ巣', lon: 139.13090, lat: 35.81187, walk: 3, cap: 31, fee: '100/15 分钟；平日白天封顶 1,000，周末白天不封顶', hrs: '24 小时', tip: '町里指定的鳩ノ巣观光停车场' }],
+  nippara: [{ n: '日原鍾乳洞駐車場', lon: 139.04013, lat: 35.85133, walk: 2, cap: 30, fee: '看钟乳洞的客人免费', tip: '官网说旺季可能要排 1–3 小时，早点到；登山的人不能停' }],
+  dam: [
+    { n: 'ふれあい館隣接駐車場', lon: 139.04719, lat: 35.79229, walk: 6, fee: '免费', hrs: '进场道路 6:00–21:00', tip: '2027 年 3 月前有部分车位施工停用' },
+    { n: '大麦代駐車場', lon: 139.04314, lat: 35.78963, walk: 10, fee: '免费', tip: 'ふれあい館那边满了就停这里' }],
+  stay: [{ n: 'タイムズ奥多摩町役場', lon: 139.09611, lat: 35.81014, walk: 1, cap: 23, fee: '白天 330/时，夜间 110/时；平日封顶 880，周末 1,320', hrs: '24 小时', tip: '住处自带停车场的话就停住处' }],
+  tomin: [{ n: '檜原都民の森 駐車場', lon: 139.03147, lat: 35.73769, walk: 1, cap: 100, fee: '免费', hrs: '11/15 前 7:00–17:30，11/16 起 8:00–17:00', tip: '平时周一休，10–11 月周一也开' }],
+  kazuma: [{ n: '数馬の湯 駐車場', lon: 139.05406, lat: 35.72431, walk: 6, cap: 50, tip: '泡数馬の湯的客人用；在兜家吃饭就问店里停哪' }],
+  hossawa: [{ n: '払沢の滝 見学者駐車場', lon: 139.14131, lat: 35.73009, walk: 15, cap: 28, fee: '免费', hrs: '晚上不关' }],
+  seoto: [{ n: '瀬音の湯 駐車場', lon: 139.18636, lat: 35.72739, walk: 2, cap: 135, fee: '免费', tip: '温泉楼那侧是住宿专用，停日归区' }],
+};
+const PARK_EL = [], PARK_W = 520, G_PARK = $('#gPark'), PK_OFF = [[-15, 13], [15, 13], [-15, -13]];   // 视野宽度小于 PARK_W（单站视角）才显示 P
+const parkFor = id => PARK[id] || (id === 'ishifune' ? PARK.seoto : null);
+const gdirLL = p => `https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=${p.lat},${p.lon}`;
+function buildPark() {
+  const g0 = $('#gPark');
+  Object.entries(PARK).forEach(([id, list]) => list.forEach(p => {
+    [p.x, p.y] = P(p.lon, p.lat); p.stop = id;
+    const g = el('g', { class: 'park', 'data-stop': id }, g0);
+    el('rect', { x: -6.5, y: -6.5, width: 13, height: 13, rx: 3 }, g);
+    const t = el('text', { y: 3.4 }, g); t.textContent = 'P';
+    p.it = { g, x: p.x, y: p.y }; p.dx = p.x; p.dy = p.y;
+    SCALED.push(p.it); PARK_EL.push(p);
+  }));
+}
+function showPark(p) {
+  ME.closed = false;
+  const info = [p.cap ? `约 ${p.cap} 个位` : '', p.fee, p.hrs].filter(Boolean).join(' · ')
+    .replace(/\d{1,2}:\d{2}–\d{1,2}:\d{2}/g, '<span class="nw">$&</span>');   // 时间段不拆行
+  say(`<b>停车场 · ${p.n}</b>${info ? '<br>' + info : ''}${p.walk != null ? `<br><span class="sub">走到${BY[p.stop].short}约 ${p.walk} 分钟</span>` : ''}${p.tip ? `<br><span class="sub">${p.tip}</span>` : ''}<br><a href="${gdirLL(p)}" target="_blank" rel="noopener">导航到这个停车场 ↗</a>`);
+}
+
+/* ---------- 附近小发现：放大到单站时在地图上显示 ◆ 和名字，点一下看介绍 ---------- */
+// n 名字，ja 搜索用日文名，kind 类别，near 附近的主景点，walk 从主景点走几分钟（null＝开车顺路），d 介绍，hrs 营业时间
+const SPOTS = [];
+const SPOT_EL = [], G_SPOT = $('#gSpot');
+const spotsOf = id => SPOTS.filter(p => p.near === id);
+function buildSpots() {
+  if (!SPOTS.length) { $('#spLeg').remove(); $('#spLegT').remove(); return; }
+  SPOTS.forEach(p => {
+    [p.x, p.y] = P(p.lon, p.lat); p.dx = p.x; p.dy = p.y;
+    const g = el('g', { class: 'spot' }, G_SPOT);
+    el('path', { d: 'M0 -6L6 0L0 6L-6 0Z' }, g);
+    const t = el('text', { class: 'lbl', x: 9, y: 4 }, g); t.textContent = p.n;
+    SCALED.push({ g, x: p.x, y: p.y });
+    LABELS.push({ t, x: p.x, y: p.y, w: tw(p.n, 11), h: 13, kind: 'peak', prio: 3.5, spot: true });
+    SPOT_EL.push(p);
+  });
+}
+function showSpot(p) {
+  ME.closed = false;
+  const where = p.walk != null ? `从${BY[p.near].short}走过去约 ${p.walk} 分钟` : `${BY[p.near].short}附近，开车顺路`;
+  say(`<b>${p.n}</b> <span class="sub">· ${p.kind}</span><br>${p.d}${p.hrs ? `<br><span class="sub">${p.hrs}</span>` : ''}<br><span class="sub">${where}</span><br><a href="${gm(p.ja)}" target="_blank" rel="noopener">在 Google 地图打开 ↗</a>`);
+}
+const spotRow = s => {
+  const L = spotsOf(s.id);
+  return L.length ? `<div class="spots"><span class="spots-h">附近小发现</span>${L.map(p => `<button type="button" class="spot-chip" data-spot="${SPOTS.indexOf(p)}"><i></i>${p.n}<small>${p.kind}</small></button>`).join('')}</div>` : '';
+};
 
 /* ---------- 每站介绍：百科式描述 + 乐趣点；原来的行程建议并进小贴士 ---------- */
 // d 介绍（按维基百科、官网的事实概括），f 乐趣点，src 来源
@@ -1038,7 +1140,8 @@ function renderList() {
       <div class="chips">${s.chips.map(([a, b]) => `<span class="chip"><b>${a}</b>${b}</span>`).join('')}</div>
       ${tbar(s)}
       ${about(s)}
-      <a class="nav" href="${gm(s.ja)}" target="_blank" rel="noopener">在 Google 地图打开 ↗</a>
+      ${spotRow(s)}
+      <div class="navs"><a class="nav" href="${gm(s.ja)}" target="_blank" rel="noopener">在 Google 地图打开 ↗</a>${parkFor(s.id) ? `<a class="nav" href="${gdirLL(parkFor(s.id)[0])}" target="_blank" rel="noopener">导航到停车场 ↗</a>` : ''}</div>
     </article></li>`;
   $('#list').innerHTML = [1, 2].map(d => {
     const rows = STOPS.filter(s => s.day === d).map(s => leg(s.leg) + stop(s)).join('') + (END[d] ? leg(END[d]) : '');
@@ -1172,9 +1275,11 @@ function wireMap() {
     if (!ptrs.has(e.pointerId)) return;
     if (e.type === 'pointerup' && ptrs.size === 1 && moved < 7) {
       const [mx, my] = local(e), [W, H] = dims(), k = W / view.w, vx = view.cx - view.w / 2, vy = view.cy - view.w * H / W / 2;
-      let best = null, bd = 22;
+      let best = null, bd = 22, bp = null, bd2 = 16;
       STOPS.forEach(st => { const d = Math.hypot((st.x - vx) * k - mx, (st.y - vy) * k - my); if (d < bd) { bd = d; best = st; } });
-      if (best) { select(best.id, false); quietScroll($(`.row.stop[data-id="${best.id}"] .card`)); }
+      if (view.w <= PARK_W) [...PARK_EL, ...SPOT_EL].forEach(p => { const d = Math.hypot((p.dx - vx) * k - mx, (p.dy - vy) * k - my); if (d < bd2) { bd2 = d; bp = p; } });
+      if (bp && (bd2 < 10 || !best)) (bp.kind ? showSpot : showPark)(bp);   // 正点在 P 上优先算停车场（P 常贴在景点钉旁）
+      else if (best) { select(best.id, false); quietScroll($(`.row.stop[data-id="${best.id}"] .card`)); }
     }
     ptrs.delete(e.pointerId); if (!ptrs.size) svg.classList.remove('grabbing');
   };
@@ -1188,6 +1293,8 @@ function wireMap() {
   $$('.m-tabs button').forEach(b => b.addEventListener('click', () => showDay(+b.dataset.view)));
   $('#list').addEventListener('click', e => {
     if (e.target.closest('a')) return;
+    const chip = e.target.closest('.spot-chip');
+    if (chip) { const p = SPOTS[+chip.dataset.spot]; setFollow(false); flyTo(viewForStop(p)); showSpot(p); return; }
     const row = e.target.closest('.row.stop'); if (!row) return;
     setFollow(true); select(row.dataset.id, 'force');
   });
@@ -1274,6 +1381,7 @@ renderBudget();
 wireBudget();
 wireTodo();
 buildMap();
+buildPark(); buildSpots();
 Object.assign(view, viewForDay(0));
 syncUI();
 render();
