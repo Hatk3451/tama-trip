@@ -237,6 +237,9 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
 .chip{font-size:12.5px;line-height:1.4;padding:3px 8px;border-radius:6px;background:var(--chip)}
 .chip b{font-weight:500;color:var(--ink-2);margin-right:5px}
 .body{margin:0;font-size:14.5px}
+.body .src{font-size:12px;color:var(--ink-2);text-decoration:none;white-space:nowrap;border-bottom:1px dotted currentColor}
+.fun{margin:-2px 0 0;font-size:14px;line-height:1.65;padding:6px 10px;border-radius:8px;background:var(--dc-soft)}
+.fun b{font-weight:700;color:var(--dc-ink)}
 .tips{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:13.5px;color:var(--ink-2)}
 .tips li{padding-left:14px;position:relative}
 .tips li::before{content:"";position:absolute;left:2px;top:.72em;width:6px;height:6px;border-radius:50%;background:var(--dc);opacity:.65}
@@ -483,6 +486,7 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
       <li><a href="https://www.gotokyo.org/jp/spot/806/index.html" target="_blank" rel="noopener">払沢の滝（GO TOKYO）</a></li>
       <li><a href="https://www.walkerplus.com/spot/ar0313s365496/price.html" target="_blank" rel="noopener">澤乃井酒窖参观</a></li>
       <li><a href="https://kaibutsu-blog.com/showakinen-autumn-nightwalk-guide/" target="_blank" rel="noopener">昭和纪念公园秋季活动</a></li>
+      <li>每站介绍：按维基百科（中文、日文）和青梅市观光协会的内容概括，每张卡片末尾有原文链接。</li>
       <li>开放时间（11 月）：<a href="https://www.mitaketozan.co.jp/timetable.html" target="_blank" rel="noopener">御岳登山铁道</a> · <a href="https://www.sawanoi-sake.com/service/kengaku/" target="_blank" rel="noopener">澤乃井</a> · <a href="https://event.jreast.co.jp/pages/articles-ome-railway-park" target="_blank" rel="noopener">青梅铁道公园</a> · <a href="http://www.nippara.com/nippara/syounyuudou/syounyuudou.html" target="_blank" rel="noopener">日原钟乳洞</a> · <a href="https://www.kensetsu.metro.tokyo.lg.jp/jimusho/nishiken/okutama-hp" target="_blank" rel="noopener">周游道路（东京都）</a> · <a href="https://www.hinohara-mori.jp/" target="_blank" rel="noopener">都民之森</a> · <a href="http://www.seotonoyu.jp/page2" target="_blank" rel="noopener">濑音之汤</a> · <a href="https://hinohara-kankou.jp/hossawa_faq/" target="_blank" rel="noopener">払沢の滝</a> · <a href="https://www.kabutoya.net/JPN/contents5.html" target="_blank" rel="noopener">兜家旅馆</a></li>
     </ul>
     <details class="credits"><summary>照片来源（Wikimedia Commons，按署名许可使用）</summary><ul class="sources" id="photoCredits"></ul></details>
@@ -522,7 +526,7 @@ const STOPS = [
   { id: 'jinja', day: 1, t: '09:00', stay: '约 2 小时', zh: '武藏御岳神社', short: '御岳神社', ja: '武蔵御嶽神社', lon: 139.1503, lat: 35.7831,
     leg: { i: 'cable', text: '缆车 6 分钟到山上，再沿参道走约 35 分钟，两边是宿坊村子。' },
     chips: [['参拜', '免费'], ['海拔', '929 m'], ['宝物殿', '只开周末节假日 9:30–16:00，500']],
-    body: '山顶上的老神社，天气好能看到关东平原。今年山上红叶偏晚，预报说 11 月 18 日前后才到最好看的时候。',
+    body: '天气好能看到关东平原。今年山上红叶偏晚，预报说 11 月 18 日前后才到最好看的时候。',
     tips: ['体力好可以加走岩石园溪谷步道（ロックガーデン），多 2–3 小时。这样下午只留溪谷，青梅就别去了。'] },
   { id: 'keikoku', day: 1, t: '11:45', stay: '1 小时多', zh: '御岳溪谷散步', short: '御岳溪谷', ja: '御岳渓谷', lon: 139.1848, lat: 35.8009,
     leg: { i: 'car', text: '缆车下山，开车约 5 分钟到御岳站一带停车。御岳苑地 100/时，御岳交流中心 500/次（2025 年资料）。' },
@@ -542,7 +546,7 @@ const STOPS = [
   { id: 'hatonosu', day: 1, t: '16:00', stay: '20–30 分钟', zh: '鸠之巢溪谷', short: '鸠之巢溪谷', ja: '鳩ノ巣渓谷', lon: 139.1292, lat: 35.8132,
     leg: { i: 'car', text: '沿国道 411 往西约 35 分钟。从沢井直接过来约 15 分钟。' },
     chips: [['费用', '免费']],
-    body: '一小段岩石峡谷加吊桥，下车走一圈就好。16:30 左右天就黑了，看完就去住处。',
+    body: '下车走一圈就好。16:30 左右天就黑了，看完就去住处。',
     tips: [] },
   { id: 'stay', day: 1, t: '16:45', stay: '住一晚', zh: '奥多摩站一带住宿', short: '奥多摩（住）', ja: '奥多摩駅', lon: 139.0966, lat: 35.8096,
     leg: { i: 'car', text: '开车约 10 分钟。' },
@@ -553,22 +557,22 @@ const STOPS = [
   { id: 'nippara', day: 2, t: '09:00', stay: '40–60 分钟', opt: true, zh: '日原钟乳洞', short: '日原钟乳洞', ja: '日原鍾乳洞', lon: 139.0408, lat: 35.8524,
     leg: { i: 'car', text: '<b>08:30</b> 退房，往北开约 25 分钟。后半段路很窄，会车要让。' },
     chips: [['门票', '900'], ['洞内', '常年约 11°C']],
-    body: '关东有名的大钟乳洞，标准路线走 40 分钟，加上新洞约 1 小时。11 点到 14 点容易停满、路上堵，要去就一开门就到。',
+    body: '标准路线走 40 分钟，加上新洞约 1 小时。11 点到 14 点容易停满、路上堵，要去就一开门就到。',
     tips: ['停车免费，但车位不多。'] },
   { id: 'dam', day: 2, t: '10:15', stay: '20–30 分钟', zh: '奥多摩湖 · 小河内大坝', short: '小河内大坝', ja: '小河内ダム', lon: 139.0513, lat: 35.7899,
     leg: { i: 'car', text: '开车约 30 分钟。不去钟乳洞的话，从住处过来 15 分钟。' },
     chips: [['停车', '免费'], ['旁边的展馆', '水と緑のふれあい館 9:30–17:00，周三休，免费']],
-    body: '东京的水库。走上坝顶，一边是整片湖，一边是多摩川的峡谷。',
+    body: '',
     tips: [] },
   { id: 'tsukiyomi', day: 2, t: '10:45', stay: '15–20 分钟', zh: '周游道路 · 月夜见第一停车场', short: '月夜见停车场', ja: '月夜見第一駐車場', lon: 139.0336, lat: 35.7667,
     leg: { i: 'car', text: '沿湖往西，过深山桥转进奥多摩周游道路，约 20 分钟。' },
     chips: [['道路', '免费'], ['夜间封路', '10–3 月 18:00 到第二天 9:00']],
-    body: '周游道路是一条沿山脊的观景弯路，这个停车场正好俯瞰奥多摩湖。海拔一千米以上的叶子，到 11 月中旬多半已经过了最好的时候。',
+    body: '海拔一千米以上的叶子，到 11 月中旬多半已经过了最好的时候。',
     tips: ['下大雨、结冰会封路，出发前查一下。'] },
   { id: 'tomin', day: 2, t: '11:20', stay: '20–40 分钟', opt: true, zh: '桧原都民之森', short: '都民之森', ja: '檜原都民の森', lon: 139.0455, lat: 35.7322,
     leg: { i: 'car', text: '翻过风张峠，开车约 15 分钟。' },
     chips: [['停车', '11/16 起 8:00–17:00'], ['11 月', '红叶季不休息']],
-    body: '三头山脚下的森林公园，顺路下车走一小段木道就好。',
+    body: '顺路下车走一小段木道就好。',
     tips: [] },
   { id: 'kazuma', day: 2, t: '12:00', stay: '约 1 小时', zh: '午饭 · 数马一带', short: '数马（午饭）', ja: '数馬', lon: 139.0571, lat: 35.7270,
     leg: { i: 'car', text: '下山约 5 分钟。' },
@@ -578,12 +582,12 @@ const STOPS = [
   { id: 'hossawa', day: 2, t: '13:15', stay: '45–60 分钟', zh: '払沢の滝', short: '払沢の滝', ja: '払沢の滝', lon: 139.1400, lat: 35.7305,
     leg: { i: 'car', text: '沿桧原街道往东约 20 分钟。' },
     chips: [['费用', '免费'], ['停车', '约 28 个位，晚上不关'], ['入口豆腐店', 'ちとせ屋 9:30–16:30，周二休']],
-    body: '日本瀑布百选之一。停好车再走约 15 分钟上坡小路。',
+    body: '停好车再走约 15 分钟上坡小路。',
     tips: [] },
   { id: 'ishifune', day: 2, t: '14:30', stay: '30–45 分钟', zh: '秋川溪谷 · 石舟桥', short: '石舟桥', ja: '石舟橋', lon: 139.1898, lat: 35.7265,
     leg: { i: 'car', text: '开车约 10 分钟。' },
     chips: [['费用', '免费']],
-    body: '吊桥加河滩。秋川这一段的红叶一般 11 月中旬到下旬最好，是这趟看山谷红叶的主场。',
+    body: '秋川这一段的红叶一般 11 月中旬到下旬最好，是这趟看山谷红叶的主场。',
     tips: [] },
   { id: 'seoto', day: 2, t: '15:30', stay: '约 1.5 小时', zh: '濑音之汤', short: '濑音之汤', ja: '秋川渓谷 瀬音の湯', lon: 139.1881, lat: 35.7272,
     leg: { i: 'walk', text: '就在石舟桥旁边，走过去几分钟。' },
@@ -904,6 +908,33 @@ function renderPhotos() {
   list.innerHTML = Object.entries(PHOTOS).map(([id, p]) => `<li>${name(id)}：<a href="${p.u}" target="_blank" rel="noopener">${p.a}</a>，<a href="${p.lu}" target="_blank" rel="noopener">${p.l}</a></li>`).join('');
 }
 
+/* ---------- 每站介绍：百科式描述 + 乐趣点；原来的行程建议并进小贴士 ---------- */
+// d 介绍（按维基百科、官网的事实概括），f 乐趣点，src 来源
+const DESC = {
+  takimoto: { d: "御岳登山铁道位于东京都青梅市，其往返于滝本站与御岳山站间的缆索铁路开通于1934年。线路全长1.107公里，高差423.6米，最大倾角达25度。", f: "一大早停好车避开人流 · 坐缆车爬升看陡坡树林后退", src: { site: "维基百科", url: "https://zh.wikipedia.org/wiki/御岳登山鐵道" } },
+  jinja: { d: "武藏御嶽神社位于东京都青梅市海拔929米的御岳山山顶，该山自古便是山岳信仰的对象。神社前有沿参道形成的鸟居前町，因祭祀大口真神而吸引众多携犬访客参拜。", f: "穿过鸟居前町的街巷参道 · 登顶参拜并远眺关东平原", src: { site: "维基百科", url: "https://zh.wikipedia.org/wiki/武藏御嶽神社" } },
+  keikoku: { d: "御岳溪谷游步道位于东京都青梅市御岳至泽井一带，沿多摩川两岸铺设，全长约4公里。步道以JR御嶽站附近为中心，串联起玉堂美术馆、栉簪美术馆及小泽酒造。", f: "沿多摩川河岸步道漫步赏红叶 · 走过溪谷吊桥看河面皮划艇 · 顺路探访沿岸美术馆", src: { site: "观光协会官网", url: "https://www.omekanko.gr.jp/spot/80401/" } },
+  sawanoi: { d: "小泽酒造位于东京都青梅市泽井的御岳溪谷沿岸，创立年份定于1702年，代表品牌为“澤乃井”。该企业于1966年开放酒藏参观，次年设立了澤乃井园。", f: "预约参观三百年酒厂的酒窖 · 在河畔庭园吃豆腐简餐 · 临水小酌清酒", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/小澤酒造" } },
+  ome: { d: "青梅铁道公园位于东京都青梅市永山公园内，于1962年为纪念日本铁路开业90周年而开园。园内设有收藏铁路模型的纪念馆，并保存展示新干线0系及被列为重要文化财的ED16 1电力机车等车辆。", f: "近距离观看新干线0系与老机车 · 逛纪念馆看铁路模型与史料", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/青梅鉄道公園" } },
+  hatonosu: { d: "鸠之巢溪谷位于东京都奥多摩町，由多摩川侵蚀秩父古生层形成。自鸠之巢至白丸湖约500米的河段遍布巨岩奇石，周边有鸠之巢小桥等桥梁及游步道、咖啡馆与画廊。", f: "走上鸠之巢小桥俯瞰巨石激流 · 沿岩石峡谷步道绕行一圈 · 在溪畔咖啡馆小坐", src: { site: "维基百科", url: "https://zh.wikipedia.org/wiki/鳩之巢溪谷" } },
+  stay: { d: "奥多摩站位于东京都最西端与最北端的奥多摩町，是JR青梅线终点站，也是东京都最西端及海拔最高的JR车站。该站1944年以冰川站之名开业，1971年改现名，并入选“关东车站百选”。", f: "看看东京最西端的JR车站 · 傍晚在山间小镇散步 · 泡车站附近的温泉解乏", src: { site: "维基百科", url: "https://zh.wikipedia.org/wiki/奧多摩站" } },
+  nippara: { d: "日原钟乳洞位于东京都奥多摩町的小川谷陡峭溪谷中，由石灰岩受侵蚀形成，总长1270米、高低差134米。此处曾为山岳信仰场所，现已被指定为东京都天然纪念物。", f: "深入高低起伏的天然溶洞探险 · 穿行狭窄岩道看地下钟乳石", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/日原鍾乳洞" } },
+  dam: { d: "奥多摩湖正式名称为小河内贮水池，是由1957年竣工的小河内水坝拦截多摩川形成的人工湖，横跨东京都与山梨县。大坝入选日本土木学会选奖土木遗产，湖上设有俗称“铁桶桥”的两座行人浮桥。", f: "在大坝顶一侧看湖一侧看峡谷", src: { site: "维基百科", url: "https://zh.wikipedia.org/wiki/奥多摩湖" } },
+  tsukiyomi: { d: "奥多摩周游道路连接东京都奥多摩町与桧原村，全长19.7公里，1973年作为收费道路开通，1990年免费开放并改现名。沿线海拔933米的月夜见第一停车场可眺望奥多摩湖及群山。", f: "驾车驰骋山脊弯道 · 在高处观景台俯瞰奥多摩湖全景", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/奥多摩周遊道路" } },
+  tomin: { d: "东京都桧原都民之森位于西多摩郡桧原村的三头山一带，面积约200公顷，其水源林入选“水源之森百选”。园内铺有木屑的“大滝の路”长约1公里，是东京都首条获认证的森林疗愈步道，通向落差35米的三头大瀑布。", f: "踩着松软的木屑步道穿行山林 · 站在滝见桥上看三头大瀑布飞流直下", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/東京都檜原都民の森" } },
+  kazuma: { d: "数马位于东京都桧原村南秋川沿岸聚落的最上游，保留有江户时代由甲斐传入、适应养蚕的入母屋式合掌造建筑“兜造民家”。当地的中村家住宅与蛇之汤温泉宝庄为国家登录有形文化财，狮子舞与太神乐为东京都无形民俗文化财。", f: "沿山路寻访兜造老民居屋顶 · 在山间餐馆吃热腾腾的荞麦面和山菜定食", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/数馬_(檜原村)" } },
+  hossawa: { d: "払泽瀑布位于东京都桧原村的北秋川支流濑户泽，因外形似僧侣拂尘而得名，入选“日本瀑布百选”。瀑布分四段跌水，总落差约60米，其中第一段落差26米，冬季会出现结冰现象。", f: "沿林间上坡小路徒步15分钟 · 站在深潭前看瀑布落进潭底", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/払沢の滝" } },
+  ishifune: { d: "石舟桥是位于东京都秋留野市乙津、跨越秋川溪谷的人行吊床板桥，作为2007年开放的濑音之汤建设项目的一部分建成。桥长96米，由两条粗钢缆承托排列着混凝土板的桥面。", f: "走上悬空吊桥饱览秋川溪谷红叶 · 下到河滩踩石头亲近溪水", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/石舟橋" } },
+  seoto: { d: "秋川溪谷濑音之汤是位于东京都秋留野市的日归温泉设施，于2007年开业，使用从地下1500米抽取的pH值10.01碱性单纯温泉。园区兼具餐饮、住宿、农产品销售与免费足汤，曾三次获“温泉总选举”润肤部门全国第一。", f: "泡进柔滑的碱性温泉洗去旅途疲惫 · 在户外免费足汤歇脚 · 逛农产店顺便错峰躲避高速堵车", src: { site: "日文维基", url: "https://ja.wikipedia.org/wiki/秋川渓谷瀬音の湯" } }
+};
+function about(s) {
+  const D = DESC[s.id], tips = (D ? [s.body, ...s.tips] : s.tips).filter(Boolean);
+  const head = D
+    ? `<p class="body">${D.d} <a class="src" href="${D.src.url}" target="_blank" rel="noopener">${D.src.site} ↗</a></p><p class="fun"><b>乐趣点：</b>${D.f}</p>`
+    : `<p class="body">${s.body}</p>`;
+  return head + (tips.length ? `<ul class="tips">${tips.map(t => `<li>${t}</li>`).join('')}</ul>` : '');
+}
+
 /* ---------- 每站时间条 ---------- */
 const TB0 = 6 * 60, TB1 = 20 * 60;   // 条的范围 6:00–20:00
 const SUN = ['06:26', '16:33'];       // 2026-11-22 奥多摩町的日出、日落（11/15 是 6:19 / 16:36，11/29 是 6:33 / 16:30）
@@ -1006,8 +1037,7 @@ function renderList() {
       <p class="ja">${s.ja}</p>
       <div class="chips">${s.chips.map(([a, b]) => `<span class="chip"><b>${a}</b>${b}</span>`).join('')}</div>
       ${tbar(s)}
-      <p class="body">${s.body}</p>
-      ${s.tips.length ? `<ul class="tips">${s.tips.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
+      ${about(s)}
       <a class="nav" href="${gm(s.ja)}" target="_blank" rel="noopener">在 Google 地图打开 ↗</a>
     </article></li>`;
   $('#list').innerHTML = [1, 2].map(d => {
