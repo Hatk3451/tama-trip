@@ -242,6 +242,29 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
 .nav{justify-self:start;font-size:13px;font-weight:500;color:var(--dc-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;
   padding:5px 11px;border:1px solid var(--rule);border-radius:999px;background:var(--paper)}
 .nav:hover{border-color:var(--dc)}
+/* 每站时间条：6:00 到 20:00；斜线 = 天黑，浅色带 = 开放，实心 = 计划，箭头 = 现在（日本时间） */
+.tbar{display:grid;gap:3px;padding-top:2px}
+.tb-now{position:relative;height:17px}
+.tb-now span{position:absolute;bottom:0;transform:translateX(-50%);padding-bottom:6px;font:600 11px/1 var(--font-data);color:var(--ink);white-space:nowrap}
+.tb-now span::after{content:"";position:absolute;left:50%;bottom:0;margin-left:-4.5px;border:4.5px solid transparent;border-top:5px solid var(--ink);border-bottom:0}
+.tb-now span.l{transform:none}.tb-now span.l::after{left:0}
+.tb-now span.r{transform:translateX(-100%)}.tb-now span.r::after{left:100%}
+.tb-track{position:relative;height:14px;border-radius:4px;background:var(--track);overflow:hidden}
+.tb-night{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 5px);opacity:.42}
+.tb-open{position:absolute;top:0;bottom:0;background:var(--dc-soft);border-inline:2px solid var(--dc)}
+.tb-open.day{border:0;background:transparent}
+.tb-plan{position:absolute;top:4px;bottom:4px;background:var(--dc);border-radius:3px;min-width:4px}
+.tb-line{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--ink)}
+.tb-axis{position:relative;height:11px;font:500 10px/1 var(--font-data);color:var(--ink-2)}
+.tb-axis span{position:absolute;transform:translateX(-50%)}
+.tb-axis span:first-child{transform:none}.tb-axis span:last-child{transform:translateX(-100%)}
+.tb-text{margin:3px 0 0;font-size:12.5px;line-height:1.55;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:1px 12px}
+.tb-text b{font-weight:500;color:var(--ink)}
+.tb-text i{display:inline-block;width:12px;height:6px;border-radius:2px;margin-right:5px;vertical-align:.12em;background:var(--dc)}
+.tb-text i.o{height:9px;width:13px;vertical-align:.02em;background:var(--dc-soft);border-inline:2px solid var(--dc);border-radius:0}
+.tb-state{flex-basis:100%;color:var(--dc-ink);font-weight:500}
+.tb-state.off{color:var(--ink-2);font-weight:400}
+.tb-warn{flex-basis:100%;color:var(--d1-ink)}
 .list-note{padding-left:40px}
 
 /* 花费 */
@@ -459,9 +482,10 @@ ol.stops{list-style:none;margin:0;padding:0;display:grid}
       <li><a href="https://www.gotokyo.org/jp/spot/806/index.html" target="_blank" rel="noopener">払沢の滝（GO TOKYO）</a></li>
       <li><a href="https://www.walkerplus.com/spot/ar0313s365496/price.html" target="_blank" rel="noopener">澤乃井酒窖参观</a></li>
       <li><a href="https://kaibutsu-blog.com/showakinen-autumn-nightwalk-guide/" target="_blank" rel="noopener">昭和纪念公园秋季活动</a></li>
+      <li>开放时间（11 月）：<a href="https://www.mitaketozan.co.jp/timetable.html" target="_blank" rel="noopener">御岳登山铁道</a> · <a href="https://www.sawanoi-sake.com/service/kengaku/" target="_blank" rel="noopener">澤乃井</a> · <a href="https://event.jreast.co.jp/pages/articles-ome-railway-park" target="_blank" rel="noopener">青梅铁道公园</a> · <a href="http://www.nippara.com/nippara/syounyuudou/syounyuudou.html" target="_blank" rel="noopener">日原钟乳洞</a> · <a href="https://www.kensetsu.metro.tokyo.lg.jp/jimusho/nishiken/okutama-hp" target="_blank" rel="noopener">周游道路（东京都）</a> · <a href="https://www.hinohara-mori.jp/" target="_blank" rel="noopener">都民之森</a> · <a href="http://www.seotonoyu.jp/page2" target="_blank" rel="noopener">濑音之汤</a> · <a href="https://hinohara-kankou.jp/hossawa_faq/" target="_blank" rel="noopener">払沢の滝</a> · <a href="https://www.kabutoya.net/JPN/contents5.html" target="_blank" rel="noopener">兜家旅馆</a></li>
     </ul>
     <details class="credits"><summary>照片来源（Wikimedia Commons，按署名许可使用）</summary><ul class="sources" id="photoCredits"></ul></details>
-    <p class="foot">资料查于 2026 年 11 月 13 日。价格和开放时间可能会变，出发前以官方为准。地图是示意图，位置大致准确，导航请点每站的 Google 地图按钮。</p>
+    <p class="foot">资料查于 2026 年 11 月 13–14 日。价格和开放时间可能会变，出发前以官方为准。地图是示意图，位置大致准确，导航请点每站的 Google 地图按钮。</p>
   </section>
 </div>
 
@@ -493,10 +517,10 @@ const STOPS = [
     leg: { i: 'car', text: '<b>07:00</b> 从市中心出发：中央道转圏央道，青梅IC 下，再沿国道 411 往西。约 70 km，1 小时 20 分左右。' },
     chips: [['停车·平日', '400/时，封顶 1,500'], ['停车·周末', '450/时，封顶 2,000'], ['缆车往返', '1,400']],
     body: '先来这里是为了抢车位。停车场 136 个位，7:10 开门，周末 10 点到 13 点最容易停满。缆车约 6 分钟上山。',
-    tips: ['缆车 10 月 1 日刚涨价，往返票两天内有效。'] },
+    tips: ['缆车 10 月 1 日刚涨价，往返票两天内有效。', '首班 7:30 上山，末班 18:30 下山，停车场 7:10–19:00。11/22 有夜神乐，预定加开约 21:30 下山的车。'] },
   { id: 'jinja', day: 1, t: '09:00', stay: '约 2 小时', zh: '武藏御岳神社', short: '御岳神社', ja: '武蔵御嶽神社', lon: 139.1503, lat: 35.7831,
     leg: { i: 'cable', text: '缆车 6 分钟到山上，再沿参道走约 35 分钟，两边是宿坊村子。' },
-    chips: [['参拜', '免费'], ['海拔', '929 m']],
+    chips: [['参拜', '免费'], ['海拔', '929 m'], ['宝物殿', '只开周末节假日 9:30–16:00，500']],
     body: '山顶上的老神社，天气好能看到关东平原。今年山上红叶偏晚，预报说 11 月 18 日前后才到最好看的时候。',
     tips: ['体力好可以加走岩石园溪谷步道（ロックガーデン），多 2–3 小时。这样下午只留溪谷，青梅就别去了。'] },
   { id: 'keikoku', day: 1, t: '11:45', stay: '1 小时多', zh: '御岳溪谷散步', short: '御岳溪谷', ja: '御岳渓谷', lon: 139.1848, lat: 35.8009,
@@ -506,14 +530,14 @@ const STOPS = [
     tips: ['只走单程。回来坐 JR 青梅线一站（沢井 → 御嶽）回停车处。'] },
   { id: 'sawanoi', day: 1, t: '13:00', stay: '1–1.5 小时', zh: '澤乃井园 · 小泽酒造', short: '澤乃井园', ja: '澤乃井園', lon: 139.1937, lat: 35.8041,
     leg: { i: 'walk', text: '沿河边步道走到沢井。' },
-    chips: [['酒窖参观', '13:00 / 14:00，要预约'], ['参观费', '免费或 700，说法不一']],
-    body: '酒厂对面的河边庭园，有简餐、豆腐和清酒，适合在这里吃午饭。酒窖参观 30–45 分钟。',
+    chips: [['酒窖参观·平日', '11:00 / 13:00'], ['酒窖参观·周末', '11:00 / 12:30 / 14:00'], ['参观费', '700（含试饮）']],
+    body: '酒厂对面的河边庭园，有简餐、豆腐和清酒，适合在这里吃午饭（餐点 16:00 停止点单）。酒窖参观约 40 分钟，要在官网提前一天预约，当天有空位也能在园内小卖部报名。',
     tips: ['司机一口都不能喝，试饮留给乘客。'] },
   { id: 'ome', day: 1, t: '15:00', stay: '约 1 小时', opt: true, zh: '青梅铁道公园', short: '青梅', ja: '青梅鉄道公園', lon: 139.2634, lat: 35.7929,
     leg: { i: 'car', text: '往东开约 20 分钟。' },
-    chips: [['开放时间', '翻新后的时间先查官网']],
+    chips: [['门票', '500（中学生以上）'], ['停车', '没有专用停车场']],
     body: '2026 年 3 月翻新重开，展出 13 辆老车，全都加了顶棚。喜欢铁路或带孩子才值得专门绕回来；不来的话直接往西去鸠之巢。',
-    tips: [] },
+    tips: ['16:00 关门，网上当日票 15:30 前能买，15:00 到时间刚好。'] },
   { id: 'hatonosu', day: 1, t: '16:00', stay: '20–30 分钟', zh: '鸠之巢溪谷', short: '鸠之巢溪谷', ja: '鳩ノ巣渓谷', lon: 139.1292, lat: 35.8132,
     leg: { i: 'car', text: '沿国道 411 往西约 35 分钟。从沢井直接过来约 15 分钟。' },
     chips: [['费用', '免费']],
@@ -532,27 +556,27 @@ const STOPS = [
     tips: ['停车免费，但车位不多。'] },
   { id: 'dam', day: 2, t: '10:15', stay: '20–30 分钟', zh: '奥多摩湖 · 小河内大坝', short: '小河内大坝', ja: '小河内ダム', lon: 139.0513, lat: 35.7899,
     leg: { i: 'car', text: '开车约 30 分钟。不去钟乳洞的话，从住处过来 15 分钟。' },
-    chips: [['停车', '免费']],
+    chips: [['停车', '免费'], ['旁边的展馆', '水と緑のふれあい館 9:30–17:00，周三休，免费']],
     body: '东京的水库。走上坝顶，一边是整片湖，一边是多摩川的峡谷。',
     tips: [] },
   { id: 'tsukiyomi', day: 2, t: '10:45', stay: '15–20 分钟', zh: '周游道路 · 月夜见第一停车场', short: '月夜见停车场', ja: '月夜見第一駐車場', lon: 139.0336, lat: 35.7667,
     leg: { i: 'car', text: '沿湖往西，过深山桥转进奥多摩周游道路，约 20 分钟。' },
-    chips: [['道路', '免费'], ['开放', '10–3 月约 9:00–18:00（民间说法）']],
+    chips: [['道路', '免费'], ['夜间封路', '10–3 月 18:00 到第二天 9:00']],
     body: '周游道路是一条沿山脊的观景弯路，这个停车场正好俯瞰奥多摩湖。海拔一千米以上的叶子，到 11 月中旬多半已经过了最好的时候。',
     tips: ['下大雨、结冰会封路，出发前查一下。'] },
   { id: 'tomin', day: 2, t: '11:20', stay: '20–40 分钟', opt: true, zh: '桧原都民之森', short: '都民之森', ja: '檜原都民の森', lon: 139.0455, lat: 35.7322,
     leg: { i: 'car', text: '翻过风张峠，开车约 15 分钟。' },
-    chips: [['停车', '免费，约 100 个位（旧资料）']],
+    chips: [['停车', '11/16 起 8:00–17:00'], ['11 月', '红叶季不休息']],
     body: '三头山脚下的森林公园，顺路下车走一小段木道就好。',
     tips: [] },
   { id: 'kazuma', day: 2, t: '12:00', stay: '约 1 小时', zh: '午饭 · 数马一带', short: '数马（午饭）', ja: '数馬', lon: 139.0571, lat: 35.7270,
     leg: { i: 'car', text: '下山约 5 分钟。' },
     chips: [['荞麦面', '约 1,500/人（估）']],
     body: '桧原街道沿路有几家荞麦面和山菜定食，周末中午要排队。',
-    tips: [] },
+    tips: ['想吃地道的山菜乡土料理，可以订数马的兜家旅馆午饭：10:00–15:00，完全预约制，4,000 起。周四定休，红叶季是否休息说法不一，订的时候问清楚。电话 042-598-6136。'] },
   { id: 'hossawa', day: 2, t: '13:15', stay: '45–60 分钟', zh: '払沢の滝', short: '払沢の滝', ja: '払沢の滝', lon: 139.1400, lat: 35.7305,
     leg: { i: 'car', text: '沿桧原街道往东约 20 分钟。' },
-    chips: [['费用', '免费'], ['停车', '车位少']],
+    chips: [['费用', '免费'], ['停车', '约 28 个位，晚上不关'], ['入口豆腐店', 'ちとせ屋 9:30–16:30，周二休']],
     body: '日本瀑布百选之一。停好车再走约 15 分钟上坡小路。',
     tips: [] },
   { id: 'ishifune', day: 2, t: '14:30', stay: '30–45 分钟', zh: '秋川溪谷 · 石舟桥', short: '石舟桥', ja: '石舟橋', lon: 139.1898, lat: 35.7265,
@@ -562,7 +586,7 @@ const STOPS = [
     tips: [] },
   { id: 'seoto', day: 2, t: '15:30', stay: '约 1.5 小时', zh: '濑音之汤', short: '濑音之汤', ja: '秋川渓谷 瀬音の湯', lon: 139.1881, lat: 35.7272,
     leg: { i: 'walk', text: '就在石舟桥旁边，走过去几分钟。' },
-    chips: [['入浴', '平日 1,100 / 节假日 1,200']],
+    chips: [['入浴', '平日 1,100 / 节假日 1,200（3 小时）'], ['休馆日', '官网日历没核实，出发前看一眼']],
     body: '泡完再上高速。周日傍晚中央道进城方向常堵，在这里多待一会儿，晚点走反而顺。',
     tips: [] }
 ];
@@ -879,6 +903,92 @@ function renderPhotos() {
   list.innerHTML = Object.entries(PHOTOS).map(([id, p]) => `<li>${name(id)}：<a href="${p.u}" target="_blank" rel="noopener">${p.a}</a>，<a href="${p.lu}" target="_blank" rel="noopener">${p.l}</a></li>`).join('');
 }
 
+/* ---------- 每站时间条 ---------- */
+const TB0 = 6 * 60, TB1 = 20 * 60;   // 条的范围 6:00–20:00
+const SUN = ['06:26', '16:33'];       // 2026-11-22 奥多摩町的日出、日落（11/15 是 6:19 / 16:36，11/29 是 6:33 / 16:30）
+// dur 计划停留分钟；hrs 开放时间，'sun' = 没有门、天亮就能看；lab 开放带叫什么；last 最后入场
+// off 休息的星期（0 = 周日）；shift 逢节假日改到第二天休；soft 说法不一、只提醒“可能休息”
+// 时间按各官网 2026-11-14 查到的 11 月时刻
+const HOL = new Set(['2026-11-03', '2026-11-23']);
+const TIMES = {
+  takimoto:  { dur: 45, hrs: ['07:30', '18:30'], lab: '缆车运行' },
+  jinja:     { dur: 120, hrs: 'sun', lab: '天亮可看' },
+  keikoku:   { dur: 75, hrs: 'sun', lab: '天亮可看' },
+  sawanoi:   { dur: 90, hrs: ['10:00', '17:00'], lab: '营业', off: [1], shift: true, offTxt: '周一休，逢节假日改周二' },
+  ome:       { dur: 60, hrs: ['10:00', '16:00'], lab: '开园', off: [2], offTxt: '周二休' },
+  hatonosu:  { dur: 25, hrs: 'sun', lab: '天亮可看' },
+  stay:      { dur: 195, hrs: null, lab: '', plan: '16:45 前后到，住一晚' },
+  nippara:   { dur: 50, hrs: ['09:00', '17:00'], last: '16:30', lab: '营业' },
+  dam:       { dur: 25, hrs: 'sun', lab: '天亮可看' },
+  tsukiyomi: { dur: 20, hrs: ['09:00', '18:00'], lab: '道路开放' },
+  tomin:     { dur: 30, hrs: ['09:30', '16:00'], lab: '设施开放' },
+  kazuma:    { dur: 60, hrs: ['10:00', '15:00'], lab: '兜家午饭', off: [4], soft: true, offTxt: '周四可能休' },
+  hossawa:   { dur: 55, hrs: 'sun', lab: '天亮可看' },
+  ishifune:  { dur: 40, hrs: 'sun', lab: '天亮可看' },
+  seoto:     { dur: 90, hrs: ['10:00', '22:00'], last: '21:00', lab: '营业' }
+};
+function isOff(T, j) {
+  if (!T.off) return false;
+  if (!T.shift) return T.off.includes(j.wd);
+  if (T.off.includes(j.wd) && !HOL.has(j.ymd)) return true;
+  return T.off.includes((j.wd + 6) % 7) && HOL.has(j.prev);   // 昨天是休息日又是节假日，挪到今天休
+}
+const mm = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
+const hm = m => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`;
+const pct = m => ((Math.min(TB1, Math.max(TB0, m)) - TB0) / (TB1 - TB0) * 100).toFixed(2) + '%';
+const span = (a, b) => `left:${pct(a)};width:calc(${pct(b)} - ${pct(a)})`;
+const howLong = m => m >= 60 ? `${Math.floor(m / 60)} 小时${m % 60 ? ' ' + (m % 60) + ' 分' : ''}` : `${m} 分钟`;
+const hoursOf = T => T.hrs === 'sun' ? SUN : T.hrs;
+function tbar(s) {
+  const T = TIMES[s.id]; if (!T) return '';
+  const a = mm(s.t), b = a + T.dur, H = hoursOf(T), sr = mm(SUN[0]), ss = mm(SUN[1]);
+  const band = H ? `<span class="tb-open${T.hrs === 'sun' ? ' day' : ''}" style="${span(mm(H[0]), mm(H[1]))}"></span>` : '';
+  const ticks = [6, 8, 10, 12, 14, 16, 18, 20].map(h => `<span style="left:${pct(h * 60)}">${h}</span>`).join('');
+  const planTxt = T.plan || `${hm(a)}–${hm(b)}`;
+  const hrsTxt = !H ? (T.lab ? `<span><i class="o"></i>${T.lab} <b>待查</b></span>` : '')
+    : T.hrs === 'sun' ? `<span>日出 ${SUN[0]} · 日落 ${SUN[1]}</span>`
+    : `<span><i class="o"></i>${T.lab} <b>${H[0]}–${H[1]}</b>${T.last ? `（最后入场 ${T.last}）` : ''}${T.offTxt ? ' · ' + T.offTxt : ''}</span>`;
+  const late = H && T.hrs !== 'sun' && (a < mm(H[0]) || b > mm(T.last || H[1]));
+  return `<div class="tbar" data-tb="${s.id}" aria-label="时间条">
+    <div class="tb-now"></div>
+    <div class="tb-track"><span class="tb-night" style="${span(TB0, sr)}"></span><span class="tb-night" style="${span(ss, TB1)}"></span>${band}<span class="tb-plan" style="${span(a, b)}"></span></div>
+    <div class="tb-axis">${ticks}</div>
+    <p class="tb-text"><span><i></i>计划 <b>${planTxt}</b></span>${hrsTxt}${late ? '<span class="tb-warn">计划时间超出了开放时间，留意一下。</span>' : ''}<span class="tb-state"></span></p>
+  </div>`;
+}
+function jstNow() {
+  const d = new Date(), p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short', hourCycle: 'h23' }).formatToParts(d);
+  const g = t => p.find(x => x.type === t).value, min = +g('hour') * 60 + +g('minute');
+  const y = +g('year'), mo = +g('month'), dd = +g('day'), iso = t => new Date(t).toISOString().slice(0, 10);
+  return { min, wd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), ymd: iso(Date.UTC(y, mo - 1, dd)), prev: iso(Date.UTC(y, mo - 1, dd - 1)),
+    local: min === d.getHours() * 60 + d.getMinutes() };
+}
+function tickNow() {
+  const j = jstNow(), { min, local } = j, sr = mm(SUN[0]), ss = mm(SUN[1]);
+  const lbl = `${local ? '现在' : '日本现在'} ${hm(min)}`, side = min <= TB0 + 60 ? ' class="l"' : min >= TB1 - 60 ? ' class="r"' : '';
+  $$('.tbar').forEach(el => {
+    const T = TIMES[el.dataset.tb], H = hoursOf(T);
+    el.querySelector('.tb-now').innerHTML = `<span${side} style="left:${pct(min)}">${lbl}</span>`;
+    const tr = el.querySelector('.tb-track'); let ln = tr.querySelector('.tb-line');
+    if (!ln) ln = tr.appendChild(Object.assign(document.createElement('span'), { className: 'tb-line' }));
+    ln.style.left = pct(min); ln.hidden = min < TB0 || min > TB1;
+    let st = '', on = false;
+    if (T.hrs === 'sun') {
+      if (min < sr) st = '天还没亮';
+      else if (min < ss) { st = `离天黑还有 ${howLong(ss - min)}`; on = true; }
+      else st = '天已经黑了';
+    } else if (H) {
+      const o = mm(H[0]), c = mm(T.last || H[1]);
+      if (isOff(T, j) && !T.soft) st = `今天休息（${T.offTxt}）`;
+      else if (isOff(T, j) && T.soft) st = `今天${T.offTxt}，先打电话问`;
+      else if (min < o) st = `还没开，${H[0]} 开`;
+      else if (min < c) { st = `现在开着，${T.last ? '最后入场 ' + T.last : H[1] + ' 关'}（还有 ${howLong(c - min)}）`; on = true; }
+      else st = T.last && min < mm(H[1]) ? '今天已经停止入场' : '今天已经关了';
+    }
+    const se = el.querySelector('.tb-state'); se.textContent = st; se.classList.toggle('off', !on); se.hidden = !st;
+  });
+}
+
 /* ---------- 行程列表 ---------- */
 const ICON = {
   car: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 11.5l1.5-4.2A2 2 0 0 1 8.4 6h7.2a2 2 0 0 1 1.9 1.3l1.5 4.2M4 11.5h16V16H4z"/><circle cx="7.5" cy="17.5" r="1.6" fill="currentColor" stroke="none"/><circle cx="16.5" cy="17.5" r="1.6" fill="currentColor" stroke="none"/></svg>',
@@ -894,6 +1004,7 @@ function renderList() {
       <h3>${s.zh}</h3>
       <p class="ja">${s.ja}</p>
       <div class="chips">${s.chips.map(([a, b]) => `<span class="chip"><b>${a}</b>${b}</span>`).join('')}</div>
+      ${tbar(s)}
       <p class="body">${s.body}</p>
       ${s.tips.length ? `<ul class="tips">${s.tips.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
       <a class="nav" href="${gm(s.ja)}" target="_blank" rel="noopener">在 Google 地图打开 ↗</a>
@@ -1059,6 +1170,7 @@ function wireMap() {
 
 /* ---------- 我的位置：拿得到就画蓝点、算距离；拿不到就交给 Google 地图 ---------- */
 const ME = { watch: null, item: null, g: null, acc: null, x: 0, y: 0, fixed: false, closed: false };
+const SITE = 'https://hatk3451.github.io/tama-trip/';   // 独立网页版：普通网址，能读手机定位
 const UNIT_PER_M = 0.0317;   // 本图投影在北纬 35.8° 附近：1 米约 0.0317 个单位
 const toast = $('#mToast'), locBtn = $('#zLoc');
 const gmDir = q => 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination=' + encodeURIComponent(q);
@@ -1080,7 +1192,8 @@ function locFail(msg) {
   clearMe();
   const s = BY[activeId] || STOPS[0];
   ME.closed = false;
-  say(`${msg}<br><a href="${gmDir(s.ja)}" target="_blank" rel="noopener">用 Google 地图导航到「${s.short}」↗</a><br><span class="sub">Google 地图会用手机自己的定位。</span>`);
+  const site = location.href.startsWith(SITE) ? '' : `<br><a href="${SITE}" target="_blank" rel="noopener">打开独立网页版，能在图上显示你的位置 ↗</a>`;
+  say(`${msg}${site}<br><a href="${gmDir(s.ja)}" target="_blank" rel="noopener">用 Google 地图导航到「${s.short}」↗</a><br><span class="sub">Google 地图会用手机自己的定位。</span>`);
 }
 function onFix(p) {
   const { longitude: lon, latitude: lat, accuracy } = p.coords, [x, y] = P(lon, lat), first = !ME.fixed;
@@ -1125,6 +1238,7 @@ function wireLocate() {
 renderGantt();
 renderList();
 renderPhotos();
+tickNow(); setInterval(tickNow, 30000);
 renderBudget();
 wireBudget();
 wireTodo();
